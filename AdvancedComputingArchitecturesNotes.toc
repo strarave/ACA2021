@@ -1,0 +1,20 @@
+\contentsline {part}{I\hspace {1em}Introduction}{2}{}%
+\contentsline {section}{\numberline {1}Taxonomy of Computer Architectures}{2}{}%
+\contentsline {subsection}{\numberline {1.1}Flynn Taxonomy}{2}{}%
+\contentsline {part}{II\hspace {1em}Performance and Cost}{2}{}%
+\contentsline {section}{\numberline {2}Performance}{2}{}%
+\contentsline {subsection}{\numberline {2.1}Evaluating performance}{2}{}%
+\contentsline {subsection}{\numberline {2.2}Quantifying the Design Process}{3}{}%
+\contentsline {paragraph}{Amdahl's Law}{3}{}%
+\contentsline {subsection}{\numberline {2.3}Indexes on performance}{3}{}%
+\contentsline {subsection}{\numberline {2.4}Benchmarking}{3}{}%
+\contentsline {subsection}{\numberline {2.5}Energy, Power}{4}{}%
+\contentsline {part}{III\hspace {1em}Pipelining}{4}{}%
+\contentsline {section}{\numberline {3}MIPS architecture}{4}{}%
+\contentsline {subsection}{\numberline {3.1}Assembly basics}{4}{}%
+\contentsline {subsection}{\numberline {3.2}MIPS instruction execution}{5}{}%
+\contentsline {subsection}{\numberline {3.3}MIPS Chip Architecture}{5}{}%
+\contentsline {section}{\numberline {4}Data and Control}{6}{}%
+\contentsline {paragraph}{Datapath}{6}{}%
+\contentsline {paragraph}{Control Unit}{6}{}%
+\contentsline {paragraph}{Memory}{7}{}%
