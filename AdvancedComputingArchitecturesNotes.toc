@@ -18,3 +18,13 @@
 \contentsline {paragraph}{Datapath}{6}{}%
 \contentsline {paragraph}{Control Unit}{6}{}%
 \contentsline {paragraph}{Memory}{7}{}%
+\contentsline {section}{\numberline {5}Hazards}{7}{}%
+\contentsline {subsection}{\numberline {5.1}Structural Hazards}{8}{}%
+\contentsline {subsection}{\numberline {5.2}Data Hazards}{8}{}%
+\contentsline {paragraph}{Read after Write}{8}{}%
+\contentsline {paragraph}{Write after Write}{8}{}%
+\contentsline {paragraph}{Write after Read}{8}{}%
+\contentsline {subsection}{\numberline {5.3}Control Hazards}{8}{}%
+\contentsline {paragraph}{Early Evaluation}{9}{}%
+\contentsline {subsubsection}{\numberline {5.3.1}Branch Prediction}{9}{}%
+\contentsline {paragraph}{Static Branch Prediction Techniques}{9}{}%
