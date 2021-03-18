@@ -28,3 +28,5 @@
 \contentsline {paragraph}{Early Evaluation}{9}{}%
 \contentsline {subsubsection}{\numberline {5.3.1}Branch Prediction}{9}{}%
 \contentsline {paragraph}{Static Branch Prediction Techniques}{9}{}%
+\contentsline {paragraph}{Dynamc Branch Prediction Techniques}{9}{}%
+\contentsline {subparagraph}{Branch Outcome Prediction}{10}{}%

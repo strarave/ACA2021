@@ -178,7 +178,7 @@
 					This technique combined with the "betting on the true branch" reduces the scope of the pipeline flush needed in the case the bet result is bad. BUT early evaluation introduces data hazards when the same registers must be accessed by two consecutive instructions where the second one is a branch.
 					
 				\subsubsection{Branch Prediction}
-					Ok, so we reduced the fulsh scope of a prediction to one instruction (with the early evaluation of branch condition). Can we go further? Yes, we can pre-load a branch of the conditional execution in order to anticipate the jump.\\
+					Ok, so we reduced the flush scope of a prediction to one instruction (with the early evaluation of branch condition). Can we go further? Yes, we can pre-load a branch of the conditional execution in order to anticipate the jump.\\
 					These techniques can be classified in two major families, static and dynamic, if they're fixed or acts basing on the data they've got.
 					
 					\paragraph{Static Branch Prediction Techniques} 
@@ -189,6 +189,26 @@
 							\item Profile Driven Prediction: statistic approach. Thismethod can use compiler hints.
 							\item Delayed Branch: rescheduling. This approach takes an instruction "near" the branch instruction and reschedule it after the branch one, because either if the branch is taken or not \emph{no penalty clock cycle} are to be taken. Obviously, the moved instruction must not be data dependent from the condition or the branch itself.
 						\end{itemize}
+						
+					\paragraph{Dynamc Branch Prediction Techniques}
+						How can we enhance the "branch bet" choice at runtime? Basing on the data we gather at runtime, change the predicted branch. This is implemented with an associative table that links \emph{PC bits with target addresses}. The whole predictor mechanism can be described by two parallel computations:
+						
+						\subparagraph{Branch Outcome Prediction}
+							BOP is the procedure that selects the actual label to jump to. If we're using a one-bit predictor, the behaviour is schematized by a super simple FSA that acts this way:
+							\begin{figure}[H]
+								\centering
+								\includegraphics[width = \textwidth]{./images/BHTFSA.png}
+								\caption{The NT stands for Not Taken, and T for Taken}
+							\end{figure}
+							This models the behaviour of the predictor of \emph{which branch is to be taken}.\\
+							Important remark: the BHT FSA may \emph{overlap predictions} (in the case for example of nested loops) if the prediction is based on different loops. An enhanced model use a 2-bit register to switch state:
+							\begin{figure}[H]
+								\centering
+								\includegraphics[width = \textwidth]{./images/BHTFSA2.png}
+							\end{figure}
+							We could also add a third, fourth bit to the memory of the FSA, but sperimental data show that a 2-bit BHT predictor is the best tradeoff between complexity and accuracy.\\
+							Another approach is to lenghten the scope of the prediction: what if two threads of execution have a similar pattern in branches, but they're "unlucky"? We could add a dedicated branch predictor that matches previous behaviours with the current one to look for patterns and better decide which path to take. This "multilevel predictors" relies on 2 factors: the lenght of the \emph{behaviour branch} to be analyzed \textbf{and stored} and the number of bits used to discrimine the branch taken (so as the simple predictor: in fact, simple FSA predictors are (0, 2) correlating predictors).\\
+							
 					
 \end{document}
 
