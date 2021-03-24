@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.2.10)  18 MAR 2021 09:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.2.10)  24 MAR 2021 16:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -214,30 +214,41 @@ File: ./images/ArchBuses.png Graphic file (type png)
 <use ./images/ArchBuses.png>
 Package pdftex.def Info: ./images/ArchBuses.png  used on input line 131.
 (pdftex.def)             Requested size: 345.0pt x 221.98764pt.
- [7 <./images/ArchBuses.png (PNG copy)>] [8]
-<./images/BHTFSA.png, id=47, 691.83469pt x 365.11406pt>
+ [7 <./images/ArchBuses.png (PNG copy)>]
+<./images/forwarding.png, id=44, 659.46375pt x 343.2825pt>
+File: ./images/forwarding.png Graphic file (type png)
+<use ./images/forwarding.png>
+Package pdftex.def Info: ./images/forwarding.png  used on input line 167.
+(pdftex.def)             Requested size: 345.0pt x 179.5922pt.
+ [8] [9 <./images/forwarding.png (PNG copy)>]
+Overfull \hbox (1.79219pt too wide) in paragraph at lines 205--206
+ \OT1/cmr/bx/n/10 Dy-namic Branch Pre-dic-tion Tech-niques[] \OT1/cmr/m/n/10 Ho
+w can we en-hance the "branch
+ []
+
+<./images/BHTFSA.png, id=51, 691.83469pt x 365.11406pt>
 File: ./images/BHTFSA.png Graphic file (type png)
 <use ./images/BHTFSA.png>
-Package pdftex.def Info: ./images/BHTFSA.png  used on input line 200.
+Package pdftex.def Info: ./images/BHTFSA.png  used on input line 211.
 (pdftex.def)             Requested size: 345.0pt x 182.07745pt.
- [9]
-<./images/BHTFSA2.png, id=51, 689.57625pt x 379.4175pt>
+[10]
+<./images/BHTFSA2.png, id=55, 689.57625pt x 379.4175pt>
 File: ./images/BHTFSA2.png Graphic file (type png)
 <use ./images/BHTFSA2.png>
-Package pdftex.def Info: ./images/BHTFSA2.png  used on input line 207.
+Package pdftex.def Info: ./images/BHTFSA2.png  used on input line 218.
 (pdftex.def)             Requested size: 345.0pt x 189.82407pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--211
+Underfull \hbox (badness 10000) in paragraph at lines 220--222
 
  []
 
-[10 <./images/BHTFSA.png (PNG copy)> <./images/BHTFSA2.png (PNG copy)>]
-[11] (./AdvancedComputingArchitecturesNotes.aux) ) 
+[11 <./images/BHTFSA.png (PNG copy)> <./images/BHTFSA2.png (PNG copy)>]
+[12] (./AdvancedComputingArchitecturesNotes.aux) ) 
 Here is how much of TeX's memory you used:
- 1929 strings out of 479383
- 26911 string characters out of 5875830
+ 1935 strings out of 479383
+ 27059 string characters out of 5875830
  308433 words of memory out of 5000000
- 19044 multiletter control sequences out of 15000+600000
+ 19049 multiletter control sequences out of 15000+600000
  409801 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  66i,6n,72p,668b,225s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -253,11 +264,11 @@ sr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/cm-s
 uper/sfrm1000.pfb>
-Output written on AdvancedComputingArchitecturesNotes.pdf (12 pages, 571571 byt
+Output written on AdvancedComputingArchitecturesNotes.pdf (13 pages, 636203 byt
 es).
 PDF statistics:
- 98 PDF objects out of 1000 (max. 8388607)
- 65 compressed objects within 1 object stream
+ 103 PDF objects out of 1000 (max. 8388607)
+ 68 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

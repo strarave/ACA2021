@@ -160,22 +160,28 @@
 						\item distanciate enough the write-read conflicts
 						\item not inserting dead times
 					\end{enumerate}
-					Forwarding, instead, is the technique that "bypasses" the WB phase and makes available the result of the ALU evaluation directly in the pipeline. So additional EX-EX, MEM-EX, MEM-ID paths are introduced in the architecture. This approach does not cover certain type of conflicts, like load - use hazards. This conflict, however, is the only one possible in the reference architecture. 
-			
+					Forwarding, instead, is the technique that "bypasses" the WB phase and makes available the result of the ALU evaluation directly in the pipeline. So additional EX-EX, MEM-EX, MEM-ID paths are introduced in the architecture. This approach does not cover certain type of conflicts, like load - use hazards. This conflict, however, is the only one possible in the reference architecture: all the other data hazards are solved with the insertion of forwarding paths.
+				
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width = \textwidth]{./images/forwarding.png}
+						\caption{MIPSarchitecture with forwarding paths}
+					\end{figure}
+				
 				\paragraph{Write after Write}
-					It's a overwriting conflict. This is a problem when a WB stage of a instructions happens \emph{after} the WB phase of a \emph{following} instruction. 
+					It's a overwriting conflict. This is a problem when a WB stage of a instructions happens \emph{after} the WB phase of a \emph{following} instruction. This conflict can't happen in the reference architecture: all instructions takes 5 clock cycles.
 					
 				\paragraph{Write after Read}
-					In a out-of-order scenario we can have a write operation of an instruction happens \emph{after} the read operation of an instruction \emph{preceding} her. 
+					In a out-of-order scenario we can have a write operation of an instruction happens \emph{after} the read operation of an instruction \emph{preceding} her. This, again, is only possible when instructions can take more stages at executing than the instructions following them, so not possible in the reference architecture.
 			
 			\subsection{Control Hazards}
 				Conditional instructions at assembly level are jumps (oversimplifying). The jump target address is computed just after the condition is evaluated (it can be PC + 1 or "TargetAddress").\\
-				In the reference pipeline the PC is updated in the last pipeline stage, BUT we can skip the MEM phase because the PC is updated in the MEM phase itslef. Tis kind of instructions (beq, bne) terminates after the MEM stage. This means that further instructions must wait for the MEM phase of the conditional statement in order to be fired, so \emph{at least 4 cycles}.\\
+				In the reference pipeline the PC is updated in the last pipeline stage, BUT we can skip the MEM phase because the PC is updated in the MEM phase itself. This kind of instructions (beq, bne) terminates after the MEM stage. This means that further instructions must wait for the MEM phase of the conditional statement in order to be fired, so \emph{at least 4 cycles}.\\
 				The standard procedure to deal with this kind of instructions structure is to \emph{preload in the pipeline the "true" branch}, and then flush it if the condition is not met. Also, data forwarding reduces the number of stalls to be introduced: EX-ID path, for example, reduces the number of stalls from 3 to 2.
 				
 				\paragraph{Early Evaluation}
 					What if we anticipate the condition evaluation \emph{the most that we can}? We can move an ALU for conditions in the second stage of the pipeline (ID) in order to recompute faster the condition. This reduces the number of bubbles needed to 1.\\
-					This technique combined with the "betting on the true branch" reduces the scope of the pipeline flush needed in the case the bet result is bad. BUT early evaluation introduces data hazards when the same registers must be accessed by two consecutive instructions where the second one is a branch.
+					This technique combined with the "betting on the true branch" reduces the scope of the pipeline flush needed in the case the bet result is bad. BUT early evaluation introduces data hazards when the same registers must be accessed by two consecutive instructions where the second one is a branch. Also, this approach does not free us from stalls: in fact, we still need to insert a single stall before the IF of the next instruction.
 					
 				\subsubsection{Branch Prediction}
 					Ok, so we reduced the flush scope of a prediction to one instruction (with the early evaluation of branch condition). Can we go further? Yes, we can pre-load a branch of the conditional execution in order to anticipate the jump.\\
@@ -187,10 +193,15 @@
 							\item Branch Always Taken: next instruction to be fetched is the one computed by ID stage.
 							\item Backward Taken Forward Not Taken: this techniques "try to predict basing on the direction of the jump". So the assumption is "forward jumps are conditions, we enters them; backward jumps are loops, we always take them".
 							\item Profile Driven Prediction: statistic approach. Thismethod can use compiler hints.
-							\item Delayed Branch: rescheduling. This approach takes an instruction "near" the branch instruction and reschedule it after the branch one, because either if the branch is taken or not \emph{no penalty clock cycle} are to be taken. Obviously, the moved instruction must not be data dependent from the condition or the branch itself.
+							\item Delayed Branch: rescheduling. This approach takes an instruction "near" the branch instruction and reschedule it after the branch one, because either if the branch is taken or not \emph{no penalty clock cycles} are to be taken. Obviously, the moved instruction must not be data dependent from the condition or the branch itself. There are three possible ways in which the \emph{branch delay slot} (the first instruction after the branch instruction) can be filled:
+								\begin{itemize}
+									\item From before: the instruction to fill the delay slot is taken from before the branch instruction
+									\item From target: the instruction is taken from the target of the branch (useful when loops are common: it's preloading the loop body)
+									\item From fall-through: the instruction to fill the delay slot is taken from the taken forward path
+								\end{itemize}
 						\end{itemize}
 						
-					\paragraph{Dynamc Branch Prediction Techniques}
+					\paragraph{Dynamic Branch Prediction Techniques}
 						How can we enhance the "branch bet" choice at runtime? Basing on the data we gather at runtime, change the predicted branch. This is implemented with an associative table that links \emph{PC bits with target addresses}. The whole predictor mechanism can be described by two parallel computations:
 						
 						\subparagraph{Branch Outcome Prediction}
@@ -209,7 +220,14 @@
 							We could also add a third, fourth bit to the memory of the FSA, but sperimental data show that a 2-bit BHT predictor is the best tradeoff between complexity and accuracy.\\
 							Another approach is to lenghten the scope of the prediction: what if two threads of execution have a similar pattern in branches, but they're "unlucky"? We could add a dedicated branch predictor that matches previous behaviours with the current one to look for patterns and better decide which path to take. This "multilevel predictors" relies on 2 factors: the lenght of the \emph{behaviour branch} to be analyzed \textbf{and stored} and the number of bits used to discrimine the branch taken (so as the simple predictor: in fact, simple FSA predictors are (0, 2) correlating predictors).\\
 							
-					
+	\part{Parallelism}
+		\section{Instruction Level Parallelism}
+			"Potential overlapping of of execution among unrelated instructions". This, at hardware level, translates into \emph{adding parallel pipelines} in order to handle different operations (or kind of operations) at the same time. Classical example: dedicated pipeline for FP operations.\\
+			A first approach is to "split" the EXE stage of the pipeline in order to provide dedicated hardware to do different things. \emph{But} this makes the pipeline heavier: the dedicated hardware enlarges the critical path, and (if not perfectly balanced) may lead to performance degradation. This way to enhance the pipeline is called \emph{complex pipeline}\\
+			Another take on this problem is using separate pipelines that covers different stages. 
+			
+			\subsection{Complex Pipeline}
+				The complex pipeline has multiple path between the DECODE step and the WRITE BACK phase. This means that \emph{right after} the decode phase an additional phase (called "issue") that send the operation to the correct pipeline must be introduced. 
 \end{document}
 
 
