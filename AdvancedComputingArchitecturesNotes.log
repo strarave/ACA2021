@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.2.10)  24 MAR 2021 16:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.2.10)  25 MAR 2021 16:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -237,38 +237,51 @@ File: ./images/BHTFSA2.png Graphic file (type png)
 <use ./images/BHTFSA2.png>
 Package pdftex.def Info: ./images/BHTFSA2.png  used on input line 218.
 (pdftex.def)             Requested size: 345.0pt x 189.82407pt.
+ [11 <./images/BHTFSA.png (PNG copy)> <./images/BHTFSA2.png (PNG copy)>]
+<./images/BTP.png, id=59, 282.30469pt x 252.19218pt>
+File: ./images/BTP.png Graphic file (type png)
+<use ./images/BTP.png>
+Package pdftex.def Info: ./images/BTP.png  used on input line 229.
+(pdftex.def)             Requested size: 345.0pt x 308.22429pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 220--222
+[12 <./images/BTP.png (PNG copy)>]
+<./images/complexPipeline.png, id=64, 639.89063pt x 416.30531pt>
+File: ./images/complexPipeline.png Graphic file (type png)
+<use ./images/complexPipeline.png>
+Package pdftex.def Info: ./images/complexPipeline.png  used on input line 244.
+(pdftex.def)             Requested size: 345.0pt x 224.45213pt.
+ [13]
+Underfull \hbox (badness 10000) in paragraph at lines 254--255
 
  []
 
-[11 <./images/BHTFSA.png (PNG copy)> <./images/BHTFSA2.png (PNG copy)>]
-[12] (./AdvancedComputingArchitecturesNotes.aux) ) 
+[14 <./images/complexPipeline.png (PNG copy)>]
+(./AdvancedComputingArchitecturesNotes.aux) ) 
 Here is how much of TeX's memory you used:
- 1935 strings out of 479383
- 27059 string characters out of 5875830
+ 1947 strings out of 479383
+ 27343 string characters out of 5875830
  308433 words of memory out of 5000000
- 19049 multiletter control sequences out of 15000+600000
+ 19059 multiletter control sequences out of 15000+600000
  409801 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,6n,72p,668b,225s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/
-enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
-x12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/
-share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></u
-sr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/cm-s
-uper/sfrm1000.pfb>
-Output written on AdvancedComputingArchitecturesNotes.pdf (13 pages, 636203 byt
+ 66i,6n,72p,877b,225s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/d
+vips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.p
+fb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/sh
+are/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/
+sfrm1000.pfb>
+Output written on AdvancedComputingArchitecturesNotes.pdf (15 pages, 695596 byt
 es).
 PDF statistics:
- 103 PDF objects out of 1000 (max. 8388607)
- 68 compressed objects within 1 object stream
+ 111 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 

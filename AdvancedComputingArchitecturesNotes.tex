@@ -219,15 +219,43 @@
 							\end{figure}
 							We could also add a third, fourth bit to the memory of the FSA, but sperimental data show that a 2-bit BHT predictor is the best tradeoff between complexity and accuracy.\\
 							Another approach is to lenghten the scope of the prediction: what if two threads of execution have a similar pattern in branches, but they're "unlucky"? We could add a dedicated branch predictor that matches previous behaviours with the current one to look for patterns and better decide which path to take. This "multilevel predictors" relies on 2 factors: the lenght of the \emph{behaviour branch} to be analyzed \textbf{and stored} and the number of bits used to discrimine the branch taken (so as the simple predictor: in fact, simple FSA predictors are (0, 2) correlating predictors).\\
-							
+							Correlating predictors, in practice, memorize the "story" of a execution path and then feed this story to a normal FSA predictor to compute the outcome.\\
+							Even more formally, a $(m, n)$ predictor uses the behaviour of the last $m$ branches to choose from $2^m$ branch predictors, each of which is a $n-bit$ predictor for a single branch. From the implementation point of view, the history of branches is memorized in a shift register of lenght $m$. 
+						
+						\subparagraph{Branch Target Predictor}
+							Simply enough, the BTP is a cache that stores the predicted address to jump to if a branch is taken. It's structured as an hashmap of jump addresses $\rightarrow$ PC-relative jump targets. Every associative entry must also have some validity bits, in order to signal wheter the branch is "in use" or not. Usually, these bits are signaled by the Branch Outcome Predictor.
+							\begin{figure}[H]
+								\centering
+								\includegraphics[width = \textwidth]{./images/BTP.png}
+							\end{figure}
+						
 	\part{Parallelism}
 		\section{Instruction Level Parallelism}
-			"Potential overlapping of of execution among unrelated instructions". This, at hardware level, translates into \emph{adding parallel pipelines} in order to handle different operations (or kind of operations) at the same time. Classical example: dedicated pipeline for FP operations.\\
-			A first approach is to "split" the EXE stage of the pipeline in order to provide dedicated hardware to do different things. \emph{But} this makes the pipeline heavier: the dedicated hardware enlarges the critical path, and (if not perfectly balanced) may lead to performance degradation. This way to enhance the pipeline is called \emph{complex pipeline}\\
-			Another take on this problem is using separate pipelines that covers different stages. 
+			"Potential overlapping of of execution among unrelated instructions". This definition of parallelism includes pipelined architectures: in fact, at every clock cycle, a pipeline is executing a number of instructions that's up to the number of stage it's composed of. \emph{Actual} parallelism can be achieved by parallel architecuters (so hardware that is designed to handle multiple instructions per clock cycle) such as superscalar architecures and VLIW.\\
+			ILP is \emph{not} parallel processing! The first is just pipeline operations to enhance throughput, the second is a non-user-transparent way of \emph{executing programs}.\\
+			ILP is possible $\Leftrightarrow$ there are no WAR, WAW, RAW conflicts, neither strtuctural hazards or control stalls.\\
+			At first, we must introduce the Complex Pipeline in order to understand the aim of the procedures to implement ILP. 
 			
 			\subsection{Complex Pipeline}
-				The complex pipeline has multiple path between the DECODE step and the WRITE BACK phase. This means that \emph{right after} the decode phase an additional phase (called "issue") that send the operation to the correct pipeline must be introduced. 
+				The complex pipeline has multiple path between the DECODE step and the WRITE BACK phase. This means that \emph{right after} the decode phase an additional phase (called "issue") that send the operation to the correct pipeline must be introduced. The complex pipeline \emph{does not create real parallelism between instructions} because in any case the EXE stage will not be shared among instructions. It just introduces the problem of having to deal with \emph{multiple data path} that each introduce a potential critical path to the architecture. Each one of those additional datapath can have a different clock count (an integer operation could take less than a "load word" operation, in terms of clock cycles) and thus enhance throughput. This, however, could lead to problems in the fetch phase of operations.\\
+				A possible solution (in fact, the superscalar once) is to load two instructions per clock cycle, and send them down different paths if they're "different" (basing on the dedicated hardware for each). The additional assumption is, every alternative EXE path is delayed in order to have a homogeneous clock cycles number before the WB stage.
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width = \textwidth]{./images/complexPipeline.png}
+					\caption{Here we see how the three different EXE stages are delayed-stalled all to match the longest data path (the FAdd, FMul one)}
+				\end{figure}
+				
+			\subsection{VLIW}
+				Very Long Instruction Word allows actual parallelism between instructions. This is done with the aim to raise the CPI above one $\Rightarrow$ having multiple instructions completed \emph{simultaneously}. The idea is to delegate the scheduling of the operations \emph{entirely} to the compiler, and enable the processor to fetch more than one operation per cycle. To do so, an additional distinction between instrutions and operations is needed:
+				\begin{itemize}
+					\item Operation is the basic unit of computation
+					\item Instruction is a batch of operations; all the operations in the batch can be executed simultaneously
+				\end{itemize}
+				The compiler now has to arrange operations in these batches (the VLIW instructions) that (due to their dimension) justify the name "Very Long Instruction". So basically the pipeline architecture isn't changed, the machine loop "IF ID EXE MEM WB" is not changed, but \emph{every single block of the pipeline is replicated} and working simultaneously. MAIN ASSUMPTION: the code to be executed is free from any kind of dependences and shit like that. To enforce this assumtpion/condition, the compiler must be made more complex in order to \emph{find and neutralize} data dependencies that can create hazards. This approach is called Static Scheduling because it exploits software components to schedule at best the instructions.\\
+				
+				
+				
+			 	
 \end{document}
 
 

@@ -30,6 +30,8 @@
 \contentsline {paragraph}{Static Branch Prediction Techniques}{10}{}%
 \contentsline {paragraph}{Dynamic Branch Prediction Techniques}{10}{}%
 \contentsline {subparagraph}{Branch Outcome Prediction}{11}{}%
+\contentsline {subparagraph}{Branch Target Predictor}{12}{}%
 \contentsline {part}{IV\hspace {1em}Parallelism}{12}{}%
-\contentsline {section}{\numberline {6}Instruction Level Parallelism}{12}{}%
-\contentsline {subsection}{\numberline {6.1}Complex Pipeline}{12}{}%
+\contentsline {section}{\numberline {6}Instruction Level Parallelism}{13}{}%
+\contentsline {subsection}{\numberline {6.1}Complex Pipeline}{13}{}%
+\contentsline {subsection}{\numberline {6.2}VLIW}{14}{}%
