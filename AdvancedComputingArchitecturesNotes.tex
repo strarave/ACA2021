@@ -251,19 +251,36 @@
 					\item Operation is the basic unit of computation
 					\item Instruction is a batch of operations; all the operations in the batch can be executed simultaneously
 				\end{itemize}
-				The compiler now has to arrange operations in these batches (the VLIW instructions) that (due to their dimension) justify the name "Very Long Instruction". So basically the pipeline architecture isn't changed, the machine loop "IF ID EXE MEM WB" is not changed, but \emph{every single block of the pipeline is replicated} and working simultaneously. MAIN ASSUMPTION: the code to be executed is free from any kind of dependences and shit like that. To enforce this assumtpion/condition, the compiler must be made more complex in order to \emph{find and neutralize} data dependencies that can create hazards. This approach is called Static Scheduling because it exploits software components to schedule at best the instructions.\\
+				The compiler now has to arrange operations in these batches (the VLIW instructions) that (due to their dimension) justify the name "Very Long Instruction". The Fetch, Decode, Mem and Write Back phases are unchanged in these architectures, juste the EXE block is replicated and parallelized.
 				
-				
+				\subsubsection{Enforcing ILP}
+					In a regular program, it's difficult to find parallel-prone batches of instruction. The compiler has to figure out how to enhance code translation in order to fully use the parallel architecture underneat.
+					
+					\paragraph{Loop Unrolling}
+						A simple example is the way loops that access sequential (or random access) data structure, just as a simple foreach, can be "unrolled", so more iteration of it can be executed at the same time. N.B.: this must be compatible with the conflicts in the code!
+						
+					\paragraph{Software Pipelining}
+						In order to enhance Loop Unrolling performance, again rescheduling comes in hand. In which way? Basically "anticipating the next loop iteration" at a scheduling level. This is made by anticipating operations \emph{in order to free slots in the pipeline that can be used to startup next iterations}. It's probable that some "compensating instructions" must be added.\\
+						We can see Software Pipelining as a Loop Unrolling \emph{enhanced} because it's just LU that pays the "startup" and "wind down" operation \emph{just one time per loop} instead of \emph{once per iteration}.
+						\begin{figure}[H]
+							\centering
+							\includegraphics[width = \textwidth]{./images/swpipe.png}
+							\caption{Visualization of the improvement of Software Pipelining}
+						\end{figure}
+						REMEMBER: SP is a \emph{compiler} solution, that just \emph{exploits efficently} a VLIW architeture.
+					
+					\paragraph{Trace Scheduling}
+						A trace is a loop free sequence of basic blocks (of instructions) embedded in the control graph. It's an "execution path" for the application. The idea behind trace scheduling is to execute application and profile the traces (against fixed input) to find the \emph{most probable to be executed}. Then, consider the entire string of "probable blocks" as a single one, in order to apply heavy rescheduling to the whole operations set, to enhance performance.
+						
+					\paragraph{Messing with Code}
+						Compensating code (like decreasing a counter afterwards having anticipated the increment) can be super cool when it comes to rescheduling operations in order to exploit hardware parallelism. BUT it must be handled with care, just like rescheduling \emph{itself}. There are some well estabilished techniques:
+						\begin{itemize}
+							\item Speculative execution: "move around" code that we \emph{think} (probabilistically) can be executed.
+							\item Predicated execution: we use the parallelization at the hardware level to simultaneously execute different branches of a conditional block and then \emph{validating} only the right one.
+						\end{itemize}
 				
 			 	
 \end{document}
-
-
-
-
-
-
-
 
 
 
