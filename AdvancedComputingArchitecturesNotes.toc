@@ -35,3 +35,15 @@
 \contentsline {section}{\numberline {6}Instruction Level Parallelism}{13}{}%
 \contentsline {subsection}{\numberline {6.1}Complex Pipeline}{13}{}%
 \contentsline {subsection}{\numberline {6.2}VLIW}{14}{}%
+\contentsline {subsubsection}{\numberline {6.2.1}Enforcing ILP}{14}{}%
+\contentsline {paragraph}{Loop Unrolling}{14}{}%
+\contentsline {paragraph}{Software Pipelining}{15}{}%
+\contentsline {paragraph}{Trace Scheduling}{15}{}%
+\contentsline {paragraph}{Messing with Code}{15}{}%
+\contentsline {section}{\numberline {7}Dynamic Scheduling}{16}{}%
+\contentsline {subsection}{\numberline {7.1}Scoreboard - Dynamic Scheduler Implementation}{16}{}%
+\contentsline {subsubsection}{\numberline {7.1.1}Issue stage}{16}{}%
+\contentsline {subsubsection}{\numberline {7.1.2}Read operands}{16}{}%
+\contentsline {subsubsection}{\numberline {7.1.3}Execution}{16}{}%
+\contentsline {subsubsection}{\numberline {7.1.4}Write result}{16}{}%
+\contentsline {subsubsection}{\numberline {7.1.5}Scoreboard additional data structures}{16}{}%

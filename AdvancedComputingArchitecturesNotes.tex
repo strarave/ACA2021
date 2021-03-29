@@ -278,7 +278,33 @@
 							\item Speculative execution: "move around" code that we \emph{think} (probabilistically) can be executed.
 							\item Predicated execution: we use the parallelization at the hardware level to simultaneously execute different branches of a conditional block and then \emph{validating} only the right one.
 						\end{itemize}
+						
+		\section{Dynamic Scheduling}
+			So, dynamic scheduling is the procedure to "rearranging instructions/operations" in order to fully exploit the hardware.
+			
+			\subsection{Scoreboard - Dynamic Scheduler Implementation}
+				Environment: complex pipeline with "ISSUE" stage, we need to implement out of order execution. The basic solution is to split the ID stage in two, the first that analyzes the instruction and the second that \emph{computes the operands and detects hazards}. An instruction is allowed to fire if there are no hazards. So if instruction 2 follows instruction 1 and the latter is blocked due to an hazard \emph{but 2 is free to fire}, 2 will execute normally.\\
+				That means that a scoreboard dynamic scheduled pipeline is
+				\begin{enumerate}
+					\item In order issued
+					\item out of order executed
+					\item out of order committed (writebacked)
+				\end{enumerate}
 				
+				\subsubsection{Issue stage}
+					The issue stage decodes the instruction and detects the hazards. Instructions are issued in program order. Stalling this phase is used to avoid WAW hazards. If no hazards are detected, the Read Operands stage is entered
+					
+				\subsubsection{Read operands}
+			 		Due to the fact that there's no possible forwarding in this pipeline, scoreboard hardware needs to tell each FU when it can read from registers. This is the stage to be stalled in order to avoid RAW hazards.
+			 		
+		 		\subsubsection{Execution}
+		 			Well... this stages executes the operations issued. The FU gets the operands when the scoreboard enables the Read Operands stage "right behind" the exe stage, and this stage notifies the scoreboard when the result is ready. 
+		 			
+	 			\subsubsection{Write result}
+	 				Accessing to the registers in order to write back the results of instructions execution.
+	 				
+ 				\subsubsection{Scoreboard additional data structures}
+ 					% TODO
 			 	
 \end{document}
 
