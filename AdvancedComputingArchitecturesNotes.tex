@@ -283,29 +283,43 @@
 			So, dynamic scheduling is the procedure to "rearranging instructions/operations" in order to fully exploit the hardware.
 			
 			\subsection{Scoreboard - Dynamic Scheduler Implementation}
-				Environment: complex pipeline with "ISSUE" stage, we need to implement out of order execution. The basic solution is to split the ID stage in two, the first that analyzes the instruction and the second that \emph{computes the operands and detects hazards}. An instruction is allowed to fire if there are no hazards. So if instruction 2 follows instruction 1 and the latter is blocked due to an hazard \emph{but 2 is free to fire}, 2 will execute normally.\\
+				Environment: complex pipeline with "ISSUE" stage, we need to implement out of order execution. The basic solution is to split the ID stage in two, the first that analyzes the instruction and the second that \emph{computes the operands and detects hazards}. An instruction is allowed to fire if there are no hazards. \textbf{So if instruction 2 follows instruction 1 and the latter is blocked due to an hazard \emph{but 2 is free to fire}, 2 will execute normally}.\\
 				That means that a scoreboard dynamic scheduled pipeline is
-				\begin{enumerate}
+				\begin{itemize}
 					\item In order issued
 					\item out of order executed
 					\item out of order committed (writebacked)
-				\end{enumerate}
+				\end{itemize}
 				
-				\subsubsection{Issue stage}
-					The issue stage decodes the instruction and detects the hazards. Instructions are issued in program order. Stalling this phase is used to avoid WAW hazards. If no hazards are detected, the Read Operands stage is entered
-					
-				\subsubsection{Read operands}
-			 		Due to the fact that there's no possible forwarding in this pipeline, scoreboard hardware needs to tell each FU when it can read from registers. This is the stage to be stalled in order to avoid RAW hazards.
-			 		
-		 		\subsubsection{Execution}
-		 			Well... this stages executes the operations issued. The FU gets the operands when the scoreboard enables the Read Operands stage "right behind" the exe stage, and this stage notifies the scoreboard when the result is ready. 
-		 			
-	 			\subsubsection{Write result}
-	 				Accessing to the registers in order to write back the results of instructions execution.
-	 				
+				The Scoreboard pipeline is ultimately divided in 4 main stages:
+				\begin{enumerate}
+					\item The issue stage decodes the instruction and detects the hazards. Instructions are issued in program order. Stalling this phase is used to avoid WAW and structural hazards. If no hazards are detected, the Read Operands stage is entered
+					\item Due to the fact that there's no possible forwarding in this pipeline, scoreboard hardware needs to tell each FU when it can read from registers. This is the stage to be stalled in order to avoid RAW hazards.
+			 		\item Execution stage: the FU gets the operands when the scoreboard enables the Read Operands stage "right behind" the exe stage, and this stage notifies the scoreboard when the result is ready. 
+		 			\item Accessing to the registers in order to write back the results of instructions execution. This stage can be stalled if a WAR is detected.
+ 				\end{enumerate}
+ 				
  				\subsubsection{Scoreboard additional data structures}
- 					% TODO
-			 	
+ 					In order to properly manage the complex pipeline and "give the right timing" to each instructions, functional unit and register, the scoreboard architecture makes use of additional data structures. The most important is a "hash map"-like stucture that links every functional unit to a set of flags and pointers, in detail:
+ 					\begin{enumerate}
+ 						\item A \emph{busy} flag that signals wheter the FU is in use
+ 						\item A \emph{op} vector that describes the available operation in that FU. This is also used to \emph{tell multi functional units which is the desired operation}
+ 						\item Three pointers to the registers (one for the destination, two for the sources, obviously)
+ 						\item Two pointers to the functional units that \emph{should produce the desired value} (this pointer is used to detect RAW conflicts) and that is linked to the source/destination register pointer (in fact, if we call $F_i$ and $F_j$ the two source registers, these two pointers would be $Q_i, Q_j$). More than pointers, this are FU ids, like "integer module 1" or "adder 2"
+ 						\item Two additional flags ($R_j, R_k$) that signals \emph{when} $F_j,F_i$ are ready. These two bits are used \emph{alongside the other flags and pointers} to signal if the instruction is waiting for data, but their meaning changes depending on the type of instruction and the phase of it
+ 					\end{enumerate}
+ 					This hashmap (which index is the FU) is called \emph{functional unit status} and works with an additional array of signals the status of all registers, the \emph{register result status}.
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width = \textwidth]{./images/Scoreboard1.png}
+						\caption{The scoreboard blank data structures}
+					\end{figure}
+			 		\begin{figure}[H]
+						\centering
+						\includegraphics[width = \textwidth]{./images/Scoreboard2.png}
+						\caption{The scoreboard data structures executing an instruction}
+					\end{figure}
+			 		
 \end{document}
 
 
