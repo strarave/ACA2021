@@ -319,7 +319,34 @@
 						\includegraphics[width = \textwidth]{./images/Scoreboard2.png}
 						\caption{The scoreboard data structures executing an instruction}
 					\end{figure}
-			 		
+					
+			\subsection{Tomasulo Algorithm}
+				Tomasulo algorithm is a dynamic algorithm that enables out of order execution and out of order completion for instructions (issuing is still handled in order). The goal of this algorithm is the same of scoreboard: high performance without compiler intervention. The main difference between Tomasulo and Scoreboard is how the control logic is handled: in Scoreboard is centralized, while in Tomasulo approach are distributed and \emph{nearer} to the functional units. Operand buffers are called \emph{reservation station}.
+				
+				\subsubsection{The reservation stations}
+					The reservation stations are the core of the Tomasulo mechanism. They're the buffer between the register file and the actual functional units, and \emph{embody the register renaming approach} that lies under the Tomasulo algorithm. Also, proxies are introduced for the "load from memory" operations (load buffers) and for the write back operations (store buffers).\\
+					The reservation stations can access a common data bus (the hearth and nervous system of the Tomasulo architecture) that makes available / read the values broadcasted from Reservation Stations.
+					
+				\subsubsection{Tomasulo data structures}
+					Tomasulo decentralized approach does not affect much the kind of information needed in solving this problem. In fact, the \emph{very same information} is just scattered near the functional units, inside the reservation station. The reservation station, in fact, are made up of:
+					\begin{itemize}
+						\item A string indicating the type of operation needed
+						\item $V_j$ and $V_k$ the values of the source operands (value = copies)
+						\item $Q_j$ and $Q_k$ pointers to the reservation station that produces $V_j$ and $V_k$. Can be used to \emph{bypass} $V_j$ and $V_k$ 
+						\item a "busy" flag
+					\end{itemize}
+					
+			 	\subsubsection{Three stages Tomasulo architecture}
+					The Tomasulo pipeline is divided in
+					
+					\paragraph{ISSUE stage}
+						Get the instruction from the queue and if a RS is ready, \emph{set the right values of it}. WAR and WAR conflicts are handled in this stage.
+					
+					\paragraph{EXECUTION stage}
+						There's no "get operands" stage, because the stalls are all condensed in the ISSUE stage, and because if an operand is not ready \emph{it will arrive from the shared data bus}.
+						
+					\paragraph{WRITE stage}
+						In this phase the result of the FU computations are broadcasted on the common data bus and stored in the RS that requested it and in the Store Buffers, in order to be stored in memory or in the RF.
 \end{document}
 
 

@@ -43,3 +43,10 @@
 \contentsline {section}{\numberline {7}Dynamic Scheduling}{16}{}%
 \contentsline {subsection}{\numberline {7.1}Scoreboard - Dynamic Scheduler Implementation}{16}{}%
 \contentsline {subsubsection}{\numberline {7.1.1}Scoreboard additional data structures}{16}{}%
+\contentsline {subsection}{\numberline {7.2}Tomasulo Algorithm}{18}{}%
+\contentsline {subsubsection}{\numberline {7.2.1}The reservation stations}{18}{}%
+\contentsline {subsubsection}{\numberline {7.2.2}Tomasulo data structures}{18}{}%
+\contentsline {subsubsection}{\numberline {7.2.3}Three stages Tomasulo architecture}{19}{}%
+\contentsline {paragraph}{ISSUE stage}{19}{}%
+\contentsline {paragraph}{EXECUTION stage}{19}{}%
+\contentsline {paragraph}{WRITE stage}{19}{}%
