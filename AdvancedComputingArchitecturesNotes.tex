@@ -280,7 +280,7 @@
 						\end{itemize}
 						
 		\section{Dynamic Scheduling}
-			So, dynamic scheduling is the procedure to "rearranging instructions/operations" in order to fully exploit the hardware.
+			So, dynamic scheduling is the procedure to "rearranging instructions/operations" in order to fully exploit the hardware. Keep in mind that we're talking about \emph{hardware solutions} to reschedule operations, so the additional hardware needed to analyze instructions, look for dependencies and dispatch executions increases (significantly) the overall complexity of the architecture.
 			
 			\subsection{Scoreboard - Dynamic Scheduler Implementation}
 				Environment: complex pipeline with "ISSUE" stage, we need to implement out of order execution. The basic solution is to split the ID stage in two, the first that analyzes the instruction and the second that \emph{computes the operands and detects hazards}. An instruction is allowed to fire if there are no hazards. \textbf{So if instruction 2 follows instruction 1 and the latter is blocked due to an hazard \emph{but 2 is free to fire}, 2 will execute normally}.\\
@@ -298,6 +298,7 @@
 			 		\item Execution stage: the FU gets the operands when the scoreboard enables the Read Operands stage "right behind" the exe stage, and this stage notifies the scoreboard when the result is ready. 
 		 			\item Accessing to the registers in order to write back the results of instructions execution. This stage can be stalled if a WAR is detected.
  				\end{enumerate}
+ 				Ultimately, the Scoreboarding approach removes RAW hazards, by \emph{issuing an operation only when its operands are available}. WAW and WAR hazards are still to be taken care of.
  				
  				\subsubsection{Scoreboard additional data structures}
  					In order to properly manage the complex pipeline and "give the right timing" to each instructions, functional unit and register, the scoreboard architecture makes use of additional data structures. The most important is a "hash map"-like stucture that links every functional unit to a set of flags and pointers, in detail:
@@ -321,7 +322,12 @@
 					\end{figure}
 					
 			\subsection{Tomasulo Algorithm}
-				Tomasulo algorithm is a dynamic algorithm that enables out of order execution and out of order completion for instructions (issuing is still handled in order). The goal of this algorithm is the same of scoreboard: high performance without compiler intervention. The main difference between Tomasulo and Scoreboard is how the control logic is handled: in Scoreboard is centralized, while in Tomasulo approach are distributed and \emph{nearer} to the functional units. Operand buffers are called \emph{reservation station}.
+				Tomasulo algorithm is a dynamic algorithm that enables out of order execution and out of order completion for instructions (issuing is still handled in order). The goal of this algorithm is the same of scoreboard: high performance without compiler intervention. The main difference between Tomasulo and Scoreboard is how the control logic is handled: in Scoreboard is centralized, while in Tomasulo approach are distributed and \emph{nearer} to the functional units. Operand buffers are called \emph{reservation station}. Tomasulo's architectures resolves WAW and WAR hazards efficiently by exploiting \emph{register renaming}.
+				\begin{figure}
+					\centering
+					\includegraphics[width = \textwidth]{./images/TomasuloArchitecture.png}
+					\caption{Basic Tomasulo architecture}
+				\end{figure}
 				
 				\subsubsection{The reservation stations}
 					The reservation stations are the core of the Tomasulo mechanism. They're the buffer between the register file and the actual functional units, and \emph{embody the register renaming approach} that lies under the Tomasulo algorithm. Also, proxies are introduced for the "load from memory" operations (load buffers) and for the write back operations (store buffers).\\
@@ -340,13 +346,13 @@
 					The Tomasulo pipeline is divided in
 					
 					\paragraph{ISSUE stage}
-						Get the instruction from the queue and if a RS is ready, \emph{set the right values of it}. WAR and WAR conflicts are handled in this stage.
+						Get the instruction from the queue and if a RS is ready, \emph{set the right values of it}, that can be either in the registers or in a issued computation; in the latter case, the pointers to the FU that will produce the right value are given to the issued intruction. If there's no station available, the operation is stalled: we're in presence of a structural hazards. In this step registers are renamed, avoiding WAR and WAW hazards.
 					
 					\paragraph{EXECUTION stage}
-						There's no "get operands" stage, because the stalls are all condensed in the ISSUE stage, and because if an operand is not ready \emph{it will arrive from the shared data bus}.
+						If an operand is not ready \emph{it will arrive from the shared data bus}. In this stage operands are "waited" monitoring the CDB, and each RS and FU knows which other will produce the desired value because of the ISSUE stage providing thi information earlier.
 						
 					\paragraph{WRITE stage}
-						In this phase the result of the FU computations are broadcasted on the common data bus and stored in the RS that requested it and in the Store Buffers, in order to be stored in memory or in the RF.
+						In this phase the result of the FU computations are broadcasted on the common data bus and stored in the RS that requested it and in the Store Buffers, in order to be stored in memory or in the RF eventually.
 \end{document}
 
 

@@ -49,4 +49,4 @@
 \contentsline {subsubsection}{\numberline {7.2.3}Three stages Tomasulo architecture}{19}{}%
 \contentsline {paragraph}{ISSUE stage}{19}{}%
 \contentsline {paragraph}{EXECUTION stage}{19}{}%
-\contentsline {paragraph}{WRITE stage}{19}{}%
+\contentsline {paragraph}{WRITE stage}{20}{}%

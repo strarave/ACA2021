@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.3.26)  9 APR 2021 17:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.3.26)  10 APR 2021 13:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -266,42 +266,48 @@ in-struc-tions/operations"
 <./images/Scoreboard1.png, id=79, 675.27281pt x 426.84468pt>
 File: ./images/Scoreboard1.png Graphic file (type png)
 <use ./images/Scoreboard1.png>
-Package pdftex.def Info: ./images/Scoreboard1.png  used on input line 314.
+Package pdftex.def Info: ./images/Scoreboard1.png  used on input line 315.
 (pdftex.def)             Requested size: 345.0pt x 218.07869pt.
 <./images/Scoreboard2.png, id=80, 648.92438pt x 413.29407pt>
 File: ./images/Scoreboard2.png Graphic file (type png)
 <use ./images/Scoreboard2.png>
-Package pdftex.def Info: ./images/Scoreboard2.png  used on input line 319.
+Package pdftex.def Info: ./images/Scoreboard2.png  used on input line 320.
 (pdftex.def)             Requested size: 345.0pt x 219.7322pt.
- [17 <./images/Scoreboard1.png (PNG copy)>] [18 <./images/Scoreboard2.png (PNG 
-copy)>] [19]
-(./AdvancedComputingArchitecturesNotes.aux) ) 
+ [17 <./images/Scoreboard1.png (PNG copy)>]
+<./images/TomasuloArchitecture.png, id=84, 444.15938pt x 332.74312pt>
+File: ./images/TomasuloArchitecture.png Graphic file (type png)
+<use ./images/TomasuloArchitecture.png>
+Package pdftex.def Info: ./images/TomasuloArchitecture.png  used on input line 
+328.
+(pdftex.def)             Requested size: 345.0pt x 258.45712pt.
+ [18 <./images/Scoreboard2.png (PNG copy)>] [19 <./images/TomasuloArchitecture.
+png (PNG copy)>] [20] (./AdvancedComputingArchitecturesNotes.aux) ) 
 Here is how much of TeX's memory you used:
- 1967 strings out of 479383
- 27799 string characters out of 5875830
+ 1973 strings out of 479383
+ 28007 string characters out of 5875830
  310433 words of memory out of 5000000
- 19075 multiletter control sequences out of 15000+600000
+ 19080 multiletter control sequences out of 15000+600000
  410160 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,6n,72p,877b,225s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/d
-vips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.p
-fb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/sha
-re/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></us
-r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb
->
-Output written on AdvancedComputingArchitecturesNotes.pdf (20 pages, 920753 byt
+ 66i,6n,72p,877b,231s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/
+texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmbxti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pf
+b></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/font
+s/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public
+/cm-super/sfrm1000.pfb>
+Output written on AdvancedComputingArchitecturesNotes.pdf (21 pages, 957438 byt
 es).
 PDF statistics:
- 134 PDF objects out of 1000 (max. 8388607)
- 86 compressed objects within 1 object stream
+ 138 PDF objects out of 1000 (max. 8388607)
+ 88 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 66 words of extra memory for PDF output out of 10000 (max. 10000000)
 
