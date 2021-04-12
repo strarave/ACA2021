@@ -282,25 +282,8 @@
 		\section{Dynamic Scheduling}
 			So, dynamic scheduling is the procedure to "rearranging instructions/operations" in order to fully exploit the hardware. Keep in mind that we're talking about \emph{hardware solutions} to reschedule operations, so the additional hardware needed to analyze instructions, look for dependencies and dispatch executions increases (significantly) the overall complexity of the architecture.
 			
-			\subsection{Scoreboard - Dynamic Scheduler Implementation}
-				Environment: complex pipeline with "ISSUE" stage, we need to implement out of order execution. The basic solution is to split the ID stage in two, the first that analyzes the instruction and the second that \emph{computes the operands and detects hazards}. An instruction is allowed to fire if there are no hazards. \textbf{So if instruction 2 follows instruction 1 and the latter is blocked due to an hazard \emph{but 2 is free to fire}, 2 will execute normally}.\\
-				That means that a scoreboard dynamic scheduled pipeline is
-				\begin{itemize}
-					\item In order issued
-					\item out of order executed
-					\item out of order committed (writebacked)
-				\end{itemize}
-				
-				The Scoreboard pipeline is ultimately divided in 4 main stages:
-				\begin{enumerate}
-					\item The issue stage decodes the instruction and detects the hazards. Instructions are issued in program order. Stalling this phase is used to avoid WAW and structural hazards. If no hazards are detected, the Read Operands stage is entered
-					\item Due to the fact that there's no possible forwarding in this pipeline, scoreboard hardware needs to tell each FU when it can read from registers. This is the stage to be stalled in order to avoid RAW hazards.
-			 		\item Execution stage: the FU gets the operands when the scoreboard enables the Read Operands stage "right behind" the exe stage, and this stage notifies the scoreboard when the result is ready. 
-		 			\item Accessing to the registers in order to write back the results of instructions execution. This stage can be stalled if a WAR is detected.
- 				\end{enumerate}
- 				Ultimately, the Scoreboarding approach removes RAW hazards, by \emph{issuing an operation only when its operands are available}. WAW and WAR hazards are still to be taken care of.
- 				
- 				\subsubsection{Scoreboard additional data structures}
+			\subsection{Scoreboard}
+				\subsubsection{Scoreboard Data Structures}
  					In order to properly manage the complex pipeline and "give the right timing" to each instructions, functional unit and register, the scoreboard architecture makes use of additional data structures. The most important is a "hash map"-like stucture that links every functional unit to a set of flags and pointers, in detail:
  					\begin{enumerate}
  						\item A \emph{busy} flag that signals wheter the FU is in use
@@ -320,6 +303,31 @@
 						\includegraphics[width = \textwidth]{./images/Scoreboard2.png}
 						\caption{The scoreboard data structures executing an instruction}
 					\end{figure}
+			
+			\subsubsection{Scoreboard - The Algorithm}
+				Environment: complex pipeline with "ISSUE" stage, we need to implement out of order execution. The basic solution is to split the ID stage in two, the first that analyzes the instruction and the second that \emph{computes the operands and detects hazards}. An instruction is allowed to fire if there are no hazards. \textbf{So if instruction 2 follows instruction 1 and the latter is blocked due to an hazard \emph{but 2 is free to fire}, 2 will execute normally}.\\
+				That means that a scoreboard dynamic scheduled pipeline is
+				\begin{itemize}
+					\item In order issued
+					\item out of order executed
+					\item out of order committed (writebacked)
+				\end{itemize}
+				
+				The Scoreboard pipeline is ultimately divided in 4 main stages:
+				\begin{enumerate}
+					\item The issue stage decodes the instruction and detects the hazards. Instructions are issued in program order. Stalling this phase is used to avoid WAW and structural hazards, and it's done if 
+						\begin{itemize}
+							\item There's not a functional unit ready for this type of operation
+							\item There's a conflict in the target register
+						\end{itemize}
+						If no hazards are detected, the Read Operands stage is entered
+					\item Due to the fact that there's no possible forwarding in this pipeline, scoreboard hardware needs to tell each FU when it can read from registers. This is the stage to be stalled in order to avoid RAW hazards. An instruction is stalled here if one (or both) of its $R_i$ is set to false.
+			 		\item Execution stage: the FU gets the operands when the scoreboard enables the Read Operands stage "right behind" the exe stage, and this stage notifies the scoreboard when the result is ready. The execution phase can take up different amount of clock cycles based on the kind of operation performed.
+		 			\item Accessing to the registers in order to write back the results of instructions execution. This stage can be stalled if a WAR is detected.
+ 				\end{enumerate}
+ 				Ultimately, the Scoreboarding approach removes RAW hazards, by \emph{issuing an operation only when its operands are available}, and WAR hazards, by \emph{stalling the writeback phase if needed}. WAW hazards are still to be taken care of.
+ 				
+ 				
 					
 			\subsection{Tomasulo Algorithm}
 				Tomasulo algorithm is a dynamic algorithm that enables out of order execution and out of order completion for instructions (issuing is still handled in order). The goal of this algorithm is the same of scoreboard: high performance without compiler intervention. The main difference between Tomasulo and Scoreboard is how the control logic is handled: in Scoreboard is centralized, while in Tomasulo approach are distributed and \emph{nearer} to the functional units. Operand buffers are called \emph{reservation station}. Tomasulo's architectures resolves WAW and WAR hazards efficiently by exploiting \emph{register renaming}.
