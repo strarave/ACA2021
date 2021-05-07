@@ -56,3 +56,10 @@
 \contentsline {subsection}{\numberline {8.1}Asynchronous Interrupts}{21}{}%
 \contentsline {paragraph}{The Interrupt Handler}{22}{}%
 \contentsline {subsection}{\numberline {8.2}Synchronous Interrupts}{22}{}%
+\contentsline {section}{\numberline {9}How to Handle Interrupts in a Five Stage Pipeline}{22}{}%
+\contentsline {part}{VI\hspace {1em}Superscalar Architectures}{22}{}%
+\contentsline {section}{\numberline {10}Superscalar Approaches}{23}{}%
+\contentsline {section}{\numberline {11}Limits of ILP Exploiting}{23}{}%
+\contentsline {part}{VII\hspace {1em}Multiple Cores}{24}{}%
+\contentsline {section}{\numberline {12}How to Handle Explicit Parallelism}{24}{}%
+\contentsline {subsection}{\numberline {12.1}Multithread Single Core Architectures}{24}{}%
