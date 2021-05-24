@@ -4,7 +4,7 @@
 \contentsline {part}{II\hspace {1em}Performance and Cost}{3}{}%
 \contentsline {section}{\numberline {2}Performance}{3}{}%
 \contentsline {subsection}{\numberline {2.1}Evaluating performance}{3}{}%
-\contentsline {subsection}{\numberline {2.2}Quantifying the Design Process}{4}{}%
+\contentsline {subsection}{\numberline {2.2}Quantifying the Design Process}{3}{}%
 \contentsline {paragraph}{Amdahl's Law}{4}{}%
 \contentsline {subsection}{\numberline {2.3}Indexes on performance}{4}{}%
 \contentsline {subsection}{\numberline {2.4}Benchmarking}{4}{}%
@@ -16,7 +16,7 @@
 \contentsline {subsection}{\numberline {3.3}MIPS Chip Architecture}{6}{}%
 \contentsline {section}{\numberline {4}Data and Control}{7}{}%
 \contentsline {paragraph}{Datapath}{7}{}%
-\contentsline {paragraph}{Control Unit}{7}{}%
+\contentsline {paragraph}{Control Unit}{8}{}%
 \contentsline {paragraph}{Memory}{8}{}%
 \contentsline {section}{\numberline {5}Hazards}{8}{}%
 \contentsline {subsection}{\numberline {5.1}Structural Hazards}{9}{}%
@@ -62,4 +62,22 @@
 \contentsline {section}{\numberline {11}Limits of ILP Exploiting}{23}{}%
 \contentsline {part}{VII\hspace {1em}Multiple Cores}{24}{}%
 \contentsline {section}{\numberline {12}How to Handle Explicit Parallelism}{24}{}%
-\contentsline {subsection}{\numberline {12.1}Multithread Single Core Architectures}{24}{}%
+\contentsline {subsection}{\numberline {12.1}Multithread Single Core Architectures - Multiprocessors}{24}{}%
+\contentsline {paragraph}{Temporal Multithreading}{24}{}%
+\contentsline {paragraph}{Simultaneous Multithreading}{25}{}%
+\contentsline {paragraph}{Comparison of approaches}{25}{}%
+\contentsline {section}{\numberline {13}Parallel Architectures}{26}{}%
+\contentsline {subsection}{\numberline {13.1}SIMD}{26}{}%
+\contentsline {paragraph}{Vector ISAs}{27}{}%
+\contentsline {subsection}{\numberline {13.2}MIMD}{27}{}%
+\contentsline {paragraph}{Classes of MIMD Machines}{28}{}%
+\contentsline {subsubsection}{\numberline {13.2.1}Shared Memory Problems - Coherence}{28}{}%
+\contentsline {paragraph}{Write Through}{28}{}%
+\contentsline {paragraph}{Write Back}{28}{}%
+\contentsline {paragraph}{Write Invalidate}{28}{}%
+\contentsline {paragraph}{Write Update}{28}{}%
+\contentsline {section}{\numberline {14}GPUs}{28}{}%
+\contentsline {subsection}{\numberline {14.1}Procedural Synthesis}{29}{}%
+\contentsline {paragraph}{XBox 360's Solutions to Procedural Synthesis}{29}{}%
+\contentsline {subsection}{\numberline {14.2}GPUs and CPUs}{29}{}%
+\contentsline {subsection}{\numberline {14.3}The GPU Pipeline}{29}{}%

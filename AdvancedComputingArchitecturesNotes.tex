@@ -22,7 +22,7 @@
 					\item SIMD: Single Instruction Multiple Data, low overhead, used in custom integrated circuits;
 					\item MIMD: Multiple Instruction Multiple Data, off the shelf micros
 				\end{enumerate}
-				SISD is the simplest and most diffuse model of computation, one data stream in input and a \emph{single} instruction executed per istant of time. SIMD introduces parallelism in a vector fashion: multiple processes execute a single instruction (the \emph{same} instruction) on different data elements. Another type of parallelism: MIMD. Just SIMD with multiple different instructions per instant.\\
+				SISD is the simplest and most diffuse model of computation, one data stream in input and a \emph{single} instruction executed per istant of time. SIMD introduces parallelism in a vector fashion: multiple processes execute a single instruction (the \emph{same} instruction) on different data elements. Another type of parallelism: MIMD. Just SIMD with multiple different instructions per instant.
 				
 	\part{Performance and Cost}
 		\section{Performance}
@@ -418,26 +418,120 @@
 				\item Multiple process single thread
 				\item multiple processes multiple threads
 			\end{enumerate}
-			Obviously, switching between two processes is more heavy than switching between two threads.
+			Obviously, switching between two processes is heavier than switching between two threads. 
 			
-			\subsection{Multithread Single Core Architectures}
-				To introduce real parallelism in a non-parallel architecture, we must rely on a super fast control unit that handles a lot of thread-context-switches at a time. Assuming this kind of CU exists, how thread can interleave in a pipeline?
+			\subsection{Multithread Single Core Architectures - Multiprocessors}
+				To introduce real parallelism in a non-parallel architecture, we must rely on a super fast control unit that handles a lot of thread-context-switches at a time. Assuming this kind of CU exists, how thread can interleave in a pipeline? 
+				
+				\paragraph{Temporal Multithreading}
+					An architecture that exploits temporal multithreading uses the processor for a single task at a time. The parallelism is put in place by switching between tasks \emph{over time} and \emph{preemptively}, in roder to give the illusion of parallelization. This is not really hardware multithreading, because the maximum number of tasks (processes, threads) in execution at the very same time is always one.\\
+					We can distinguish between:
+					\begin{enumerate}
+						\item Fine grain parallelism: each \emph{instruction} is followed by another thread \emph{instruction}. This hides short and long stalls, because a stalled thread "leaves the pipeline free" for another thread. 
+						\item Coarse grain parallelism: switch between threads only when a long stall is asked from a thread. This enables the threads to interleave in a more efficent way. 
+					\end{enumerate}
+				
+				\paragraph{Simultaneous Multithreading}
+					Can we exploit ILP methodologies to enhance parallelization instead of single-thread-throughput? Yes; \emph{simultaneous multithreading}. We can use a superscalar architecture to fetch instruction \emph{from different indipendent threads} when loading instructions; this is made possible by keeping track of two (or more) different program counters. BUT this is not a real limitation, because we can make large use of register renaming. Moreover, the intrinsic OOO execution of the tasks in a superscalar processor allows threads to execute in real parallelism.\\
+					Actually, SMT (alongside pure multiprocessing, where the CPU is "split in lanes" that executes each a thread per time) implements hardware parallelism.
+					
+				\paragraph{Comparison of approaches}
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width = \textwidth]{./images/threadLevelParallelism.png}
+						\caption{In red, temporal multithreading approaches. In blue, simultaneous multithreading approaches.}
+					\end{figure}
+					Without surprise, temporal multithreading is not as "thoughtputful"\footnote{completely made up on the spot} as simoultaneous multithreading, being the second an actual \emph{hardware} multithreading approach, with more process simoultaneously on the same chip.\\
+					This is due also to the fact that fetching instructions from multiple threads enables to always execute the best candidate (basing on the number of unresolved branches, load misses ecc) to execute, and thus committing more instructions. \emph{As usual}, a more "intelligent" architecture is also more difficult to design: having to deal with
+					\begin{enumerate}
+						\item Multiple executions contexts
+						\item Multiple fetch candidates
+						\item Cross thread commit conflicts
+					\end{enumerate}
+					add complexity to the hardware (that drives more power consumption ecc ecc).
+					
+		\section{Parallel Architectures}
+			As a formal definition of a parallel computer is a "set of computers that can \emph{cooperate and communicate} to solve a problem". In this definition is made relevant that the \emph{communication infrastructure} of a parallel architecture is one of the performance indicator for it. An architecture can achieve single core performance like no other, but if the communication infrastructure is poor this power is thrown away.\\
+			We can have at least three models of parallelisms (according to Flynn's taxonomy, SIMD, MISD, MIMD). The first parallel architectures (the '80) were \emph{parallel SIMD architectures} and were used for vector computations. MIMD is the "way to go": if we can achieve real parallelism on-chip \emph{on multiple data} we will have an higher processing per chip ratio (to say one).
+			
+			\subsection{SIMD}
+				First in the list of parallel architectures, single instruction stream on multiple memory units (vector computation).
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width = \textwidth]{./images/SIMD.png}
+					\caption{A traditional SIMD computation, with a central arbiter that delivers to each \emph{processing element} the same instructions to execute \underline{on their private memory}}
+				\end{figure}
+				SIMD architectures can be seen as an orchestra made of an array of a unique instrument, all the intruments playing the same note at the same time.\\
+				Vector computation is peculiar in the sense that each processing element (each instrument in the orchestra) must have his memory space; this leads to a "vectorized" architecture \emph{on more levels}: also registers must be vectorized, buses and I/O ports. Even more: loop unrolling can be easily performed when a VISA is available: an entire loop can be summed up in a single vector instruction (if iterations are indipendent) saving up a lot of time; a single instruction is neede instead of a loop. 
+				
+				\paragraph{Vector ISAs}
+					To deal with vectorized architectures, we also need \emph{vector instructions} that can deal with multi-dimensional memory and processing elements. A VISA is compact (bundles together several operations in a single instruction) and scalable (just add lanes!). It is also super expressive: a single vector instruction not only bundles together multiple operations, but also "means more" in terms of memory access, data dependancy and independency between operations. As an example, MIPS-like code comparison for a simple sequential pipeline loop and a vectorized architecture:
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width = \textwidth]{./images/vISAs.png}
+					\end{figure}
+					It's obvious that not every cycle will be exactly as long as the vector lenght: to ensure that the vector architecture is fully exploited, two techniques are used:
+					\begin{enumerate}
+						\item Strip mining: assembly code is generated in a way that every cycle is unrolled (but more in general, every operation is generate as) to always fit the \emph{mvl}\footnote{maximum vector lenght} and no further. A vectorized loop handles all the multiple-of-mvl long operations and then a scalar clean-up loop handles the remaining part of the data. 
+						\item Vector mask control: when for example a loop contains operations on data that depends on a condition (like, increment only odd values of an array) an array of boolean values is generated and only the flagged generated data are then transcribed in the register file. 
+					\end{enumerate}
+					
+			\subsection{MIMD}
+				MIMD architectures pushes heterogeneous approaches. Why? Because having multiple instructions executing at the same time on different data means that potentially perform super different computations \emph{at the same time on the same chip}. The perfect example is mobile multi purpose devices, that have to handle a ton of computations at the same time that are not \emph{so computationally expensive}, but they're all different from one another: text processing lives besides video processing and communications.\\
+				MIMD processors are arrays of processors that work asynchronoulsy on different data. Little detail: this vague definition of MIMD machines includes parallel omogeneous architectures as well as heterogeneous chips and also clusters of indipendent machines.\\
+				
+				\paragraph{Classes of MIMD Machines}
+					With this in mind, we can define two major classes of MIMD machines:
+					\begin{itemize}
+						\item centralized shared memory architectures, where all processors share the same memory (it's usually up o the OS to maintain coherence). This solution provides low overhead: there's no difference for a process to load data from memory and passing data to another process. On the other hand, the management of the address space is a mess. Also, it does not scale well.
+						\item distributed memory architectures, in which every processor access his own memory. Usually this kind of architectures provides send/receive primitives to enaable data sharing. 
+					\end{itemize}
+					
+				\subsubsection{Shared Memory Problems - Coherence}
+					Cache coherence is a mess. In a shared memory architectures cache should hold both private processes data and shared data. There exist a lot of approaches to caching data, differentiating on what or when to update the memory or the cache: 
+					
+					\paragraph{Write Through}
+						When a value is updated in the cache from the processor, that value is immediatly propagated to the main memory. This implies (in a multiprocessor architecture, logically) that all cache writes should inform all the processors that there's a possible uncoherent value in their cache. This causes way more overhead.
+						
+					\paragraph{Write Back}
+						Write back caches updates memory locations (from the cache) only when the memory location is requested, just like software lazy loading. This is way less "overheader" than the WT approach, but it's slower in the load of effective values (the coherent value should be updated and then read, and not directly read from the memory like in WT).
+				
+					\paragraph{Write Invalidate} 
+						Tell everybody their value is outdated, they'll retrieve the new value on their own.
+					
+					\paragraph{Write Update} 
+						Tell everybody what the new data is: \emph{bus congestion problems} arises.\\
+						These last two policies fall under the "snooping protocols": these protocols are implemented by the processors themselves that \emph{snoop} on the shared bus to see if a certain memory location is overwirtten. 
+					
+				
+				
+		\section{GPUs}
+			When talking about heterogeneous architectures, we cannot avoid thinking about dedicated hardware, and GPUs are the best example. The gaming (and physics) industry carried the developing of processing units that were \emph{dedicated} to graphical processing, to speed up execution for example in games, or simulators.
+			
+			\subsection{Procedural Synthesis}
+				Procedural synthesis is a method to \emph{generate content} dynamically basing on random or pseudo random seeds. This technique is used to generate for example low level geometry for landscape in videogames. In this very case, objects are composed of polygones that are stored in memory as set of vertices.
+				
+				\paragraph{XBox 360's Solutions to Procedural Synthesis}
+					Xbox 360 by Microsoft uses this workflow to render scenes of videogames:
+					\begin{enumerate}
+						\item Store in the main memory high level descriptions of the objects to render.
+						\item Use the CPU to carry out the procedural synthesis of the \emph{geometry} at runtime, to create the skeleton of the scene.
+						\item Use the GPU to load then the graphic components such as textures, and put together the full scene.
+					\end{enumerate}
+			
+			\subsection{GPUs and CPUs}
+				Architecturally, GPUs are completely different from standard CPUs. While CPUs are oriented to serial execution of instructions, GPUs are more tailored to highly parallel execution to achieve higher volumes of computation.
+				
+			\subsection{The GPU Pipeline}
+				The GPU work is to receive geometry as input and produce an image corresponding to that geometry as an output. This is made possible through the workflow
 				\begin{enumerate}
-					\item Fine grain parallelism: each instruction is followed by another thread instruction. This hides short and long stalls, because a stalled thread "leaves the pipeline free" for another thread. 
-					\item Coarse grain parallelism: switch between threads only when a long stall is asked from a thread. This enables the threads to interleave in a more efficent way. 
+					\item interface with the host: this stage of the pipeline gets the information (so vertices) from the CPU and the other main geometry infos (vectors and stuff).
+					\item vertex processing: in this stage all the vertices are connected to form the right shapes. 
+					\item triangle setup: all the forms outputted from the vertex processing stage are processed in order to realize \emph{which portions of which geometry elements} should be mapped on the final figure.
+					\item pixel processing: all the textures are applied in this portion of the pipeline.
+					\item last stage: memory interface. 
 				\end{enumerate}
-				Can ILP and TLP (Thread Level Parallelism) live together on an architecture? Yes; \emph{simultaneous multithreading}. We can exploit a superscalar architecture to fetch instruction \emph{from different indipendent threads} when loading instructions. 
+				
+		
 			
 \end{document}
-
-
-
-
-
-
-
-
-
-
-
-
