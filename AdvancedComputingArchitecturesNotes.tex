@@ -480,28 +480,40 @@
 				MIMD architectures pushes heterogeneous approaches. Why? Because having multiple instructions executing at the same time on different data means that potentially perform super different computations \emph{at the same time on the same chip}. The perfect example is mobile multi purpose devices, that have to handle a ton of computations at the same time that are not \emph{so computationally expensive}, but they're all different from one another: text processing lives besides video processing and communications.\\
 				MIMD processors are arrays of processors that work asynchronoulsy on different data. Little detail: this vague definition of MIMD machines includes parallel omogeneous architectures as well as heterogeneous chips and also clusters of indipendent machines.\\
 				
-				\paragraph{Classes of MIMD Machines}
-					With this in mind, we can define two major classes of MIMD machines:
+				\paragraph{Classes of MIMD Machines and their Memory Models}
+					With this in mind, we can define two major classes of MIMD machines, differentiating on the kind of address space the use to index memory:
 					\begin{itemize}
-						\item centralized shared memory architectures, where all processors share the same memory (it's usually up o the OS to maintain coherence). This solution provides low overhead: there's no difference for a process to load data from memory and passing data to another process. On the other hand, the management of the address space is a mess. Also, it does not scale well.
-						\item distributed memory architectures, in which every processor access his own memory. Usually this kind of architectures provides send/receive primitives to enaable data sharing. 
+						\item single shared address space memory architectures, where all processors share the same memory addresses\footnote{\emph{NOT THE SAME MEMORY, but only the addressing space. Can be the same memory though.}}(it's usually up to the OS to maintain coherence). This solution provides low overhead: there's no difference for a process to load data from memory and passing data to another process. On the other hand, the management of the address space is a mess. Also, it does not scale well.
+						\item multiple private address spaaces, in which every processor access his own memory. Usually this kind of architectures provides send/receive primitives to enaable data sharing, through some implementation of a message passing protocol. 
 					\end{itemize}
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width = \textwidth]{./images/memoryModels.png}
+						\caption{Shared and distributed memory address spaces.}
+					\end{figure}
+					Physically, the memory can be organized in many ways either: a possible distinction can be
+					\begin{itemize}
+						\item Centralized shared memory architectures, where cores\footnote{better if not too many, max 100} share the same physical memory banks. These archs are usually called Uniform Memory Access.
+						\item Distributed memory architectures, where each core has his own main memory. These solutions often need a high bandwith interconnection, but usually can support more cores. Are usually called NUMA (Non Uniform Memory Access).
+					\end{itemize}
+					To cite professor Santambrogio: \emph{The concepts of addressing space (single/multiple) and the physical memory organization (centralized/distributed) are orthogonal to each other}.
+					\begin{figure}[H]
+						\centering
+						\begin{minipage}{0.45\textwidth}
+							\centering
+							\includegraphics[width=0.9\textwidth]{./images/sharedMemory.png}
+							\caption{Shared address space architectures}
+						\end{minipage}\hfill
+						\begin{minipage}{0.45\textwidth}
+							\centering
+							\includegraphics[width=0.9\textwidth]{./images/messagePassing.png}
+							\caption{Message Passing architectures}
+						\end{minipage}
+					\end{figure}
+					This kind of shared vs indipendent models can be also seen in the programming model that finally ends up in the developer hands.
 					
 				\subsubsection{Shared Memory Problems - Coherence}
-					Cache coherence is a mess. In a shared memory architectures cache should hold both private processes data and shared data. There exist a lot of approaches to caching data, differentiating on what or when to update the memory or the cache: 
-					
-					\paragraph{Write Through}
-						When a value is updated in the cache from the processor, that value is immediatly propagated to the main memory. This implies (in a multiprocessor architecture, logically) that all cache writes should inform all the processors that there's a possible uncoherent value in their cache. This causes way more overhead.
-						
-					\paragraph{Write Back}
-						Write back caches updates memory locations (from the cache) only when the memory location is requested, just like software lazy loading. This is way less "overheader" than the WT approach, but it's slower in the load of effective values (the coherent value should be updated and then read, and not directly read from the memory like in WT).
-				
-					\paragraph{Write Invalidate} 
-						Tell everybody their value is outdated, they'll retrieve the new value on their own.
-					
-					\paragraph{Write Update} 
-						Tell everybody what the new data is: \emph{bus congestion problems} arises.\\
-						These last two policies fall under the "snooping protocols": these protocols are implemented by the processors themselves that \emph{snoop} on the shared bus to see if a certain memory location is overwirtten. 
+					We will focus on shared memory machines with coherence check done at hardware level. In particular, we'll analyze \emph{snooping protocols}\footnote{all cache controllers "snoops" the data bus to get if they're holding an invalid/outdated memory location} 
 					
 				
 				
