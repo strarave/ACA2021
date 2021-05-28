@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/Arch Linux) (preloaded format=xelatex 2021.5.24)  24 MAY 2021 18:50
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/Arch Linux) (preloaded format=xelatex 2021.5.24)  28 MAY 2021 11:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -241,26 +241,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 480--482
  []
 
 [27]
-File: ./images/memoryModels.png Graphic file (type bmp)
-<./images/memoryModels.png>
 File: ./images/sharedMemory.png Graphic file (type bmp)
 <./images/sharedMemory.png>
 File: ./images/messagePassing.png Graphic file (type bmp)
 <./images/messagePassing.png>
-
-Overfull \hbox (7.2984pt too wide) in paragraph at lines 499--512
-\TU/lmr/m/n/10 To cite professor Santambrogio: \TU/lmr/m/it/10 The concepts of 
-addressing space (single/multiple)
- []
-
-[28] [29] [30] (./AdvancedComputingArchitecturesNotes.aux) ) 
+ [28] [29]
+File: ./images/MSI.png Graphic file (type bmp)
+<./images/MSI.png>
+ [30]
+File: ./images/MESI.png Graphic file (type bmp)
+<./images/MESI.png>
+ [31] [32] (./AdvancedComputingArchitecturesNotes.aux) ) 
 Here is how much of TeX's memory you used:
- 1709 strings out of 477299
- 26095 string characters out of 5838338
+ 1715 strings out of 477299
+ 26146 string characters out of 5838338
  315009 words of memory out of 5000000
- 21320 multiletter control sequences out of 15000+600000
+ 21325 multiletter control sequences out of 15000+600000
  407406 words of font info for 55 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  66i,8n,72p,920b,260s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on AdvancedComputingArchitecturesNotes.pdf (31 pages).
+Output written on AdvancedComputingArchitecturesNotes.pdf (33 pages).

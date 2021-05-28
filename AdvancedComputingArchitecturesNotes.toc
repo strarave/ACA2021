@@ -70,10 +70,16 @@
 \contentsline {subsection}{\numberline {13.1}SIMD}{26}{}%
 \contentsline {paragraph}{Vector ISAs}{27}{}%
 \contentsline {subsection}{\numberline {13.2}MIMD}{27}{}%
-\contentsline {paragraph}{Classes of MIMD Machines and their Memory Models}{28}{}%
-\contentsline {subsubsection}{\numberline {13.2.1}Shared Memory Problems - Coherence}{29}{}%
-\contentsline {section}{\numberline {14}GPUs}{29}{}%
-\contentsline {subsection}{\numberline {14.1}Procedural Synthesis}{29}{}%
-\contentsline {paragraph}{XBox 360's Solutions to Procedural Synthesis}{29}{}%
-\contentsline {subsection}{\numberline {14.2}GPUs and CPUs}{30}{}%
-\contentsline {subsection}{\numberline {14.3}The GPU Pipeline}{30}{}%
+\contentsline {section}{\numberline {14}Classes of MIMD Machines and their Memory Models}{28}{}%
+\contentsline {paragraph}{Reference Model}{29}{}%
+\contentsline {subsection}{\numberline {14.1}Shared Memory Problems - Coherence}{29}{}%
+\contentsline {subsubsection}{\numberline {14.1.1}Snoopy Bus}{29}{}%
+\contentsline {paragraph}{Write Invalidate}{30}{}%
+\contentsline {paragraph}{Write Update}{30}{}%
+\contentsline {paragraph}{MSI}{30}{}%
+\contentsline {paragraph}{MESI}{31}{}%
+\contentsline {section}{\numberline {15}GPUs}{31}{}%
+\contentsline {subsection}{\numberline {15.1}Procedural Synthesis}{32}{}%
+\contentsline {paragraph}{XBox 360's Solutions to Procedural Synthesis}{32}{}%
+\contentsline {subsection}{\numberline {15.2}GPUs and CPUs}{32}{}%
+\contentsline {subsection}{\numberline {15.3}The GPU Pipeline}{32}{}%

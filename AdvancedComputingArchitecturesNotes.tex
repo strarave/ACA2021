@@ -480,42 +480,80 @@
 				MIMD architectures pushes heterogeneous approaches. Why? Because having multiple instructions executing at the same time on different data means that potentially perform super different computations \emph{at the same time on the same chip}. The perfect example is mobile multi purpose devices, that have to handle a ton of computations at the same time that are not \emph{so computationally expensive}, but they're all different from one another: text processing lives besides video processing and communications.\\
 				MIMD processors are arrays of processors that work asynchronoulsy on different data. Little detail: this vague definition of MIMD machines includes parallel omogeneous architectures as well as heterogeneous chips and also clusters of indipendent machines.\\
 				
-				\paragraph{Classes of MIMD Machines and their Memory Models}
-					With this in mind, we can define two major classes of MIMD machines, differentiating on the kind of address space the use to index memory:
-					\begin{itemize}
-						\item single shared address space memory architectures, where all processors share the same memory addresses\footnote{\emph{NOT THE SAME MEMORY, but only the addressing space. Can be the same memory though.}}(it's usually up to the OS to maintain coherence). This solution provides low overhead: there's no difference for a process to load data from memory and passing data to another process. On the other hand, the management of the address space is a mess. Also, it does not scale well.
-						\item multiple private address spaaces, in which every processor access his own memory. Usually this kind of architectures provides send/receive primitives to enaable data sharing, through some implementation of a message passing protocol. 
-					\end{itemize}
-					\begin{figure}[H]
-						\centering
-						\includegraphics[width = \textwidth]{./images/memoryModels.png}
-						\caption{Shared and distributed memory address spaces.}
-					\end{figure}
-					Physically, the memory can be organized in many ways either: a possible distinction can be
-					\begin{itemize}
-						\item Centralized shared memory architectures, where cores\footnote{better if not too many, max 100} share the same physical memory banks. These archs are usually called Uniform Memory Access.
-						\item Distributed memory architectures, where each core has his own main memory. These solutions often need a high bandwith interconnection, but usually can support more cores. Are usually called NUMA (Non Uniform Memory Access).
-					\end{itemize}
-					To cite professor Santambrogio: \emph{The concepts of addressing space (single/multiple) and the physical memory organization (centralized/distributed) are orthogonal to each other}.
-					\begin{figure}[H]
-						\centering
-						\begin{minipage}{0.45\textwidth}
-							\centering
-							\includegraphics[width=0.9\textwidth]{./images/sharedMemory.png}
-							\caption{Shared address space architectures}
-						\end{minipage}\hfill
-						\begin{minipage}{0.45\textwidth}
-							\centering
-							\includegraphics[width=0.9\textwidth]{./images/messagePassing.png}
-							\caption{Message Passing architectures}
-						\end{minipage}
-					\end{figure}
-					This kind of shared vs indipendent models can be also seen in the programming model that finally ends up in the developer hands.
-					
-				\subsubsection{Shared Memory Problems - Coherence}
-					We will focus on shared memory machines with coherence check done at hardware level. In particular, we'll analyze \emph{snooping protocols}\footnote{all cache controllers "snoops" the data bus to get if they're holding an invalid/outdated memory location} 
-					
+		\section{Classes of MIMD Machines and their Memory Models}
+			We can classify MIMD machines either by the address space model or the physical implementation of the memory itself:
+			\begin{itemize}
+				\item single shared address space memory architectures, where all processors share the same memory addresses\footnote{\emph{NOT THE SAME MEMORY, but only the addressing space. Can be the same memory though.}}(it's usually up to the OS to maintain coherence). This solution provides low overhead: there's no difference for a process to load data from memory and passing data to another process. On the other hand, the management of the address space is a mess. Also, it does not scale well.
+				\item multiple private address spaaces, in which every processor access his own memory. Usually this kind of architectures provides send/receive primitives to enaable data sharing, through some implementation of a message passing protocol. 
+			\end{itemize}
+			for the address space, and
+			\begin{itemize}
+				\item Centralized shared memory architectures, where cores\footnote{better if not too many, max 100} share the same physical memory banks. These archs are usually called Uniform Memory Access.
+				\item Distributed memory architectures, where each core has his own main memory. These solutions often need a high bandwith interconnection, but usually can support more cores. Are usually called NUMA (Non Uniform Memory Access).
+			\end{itemize}
+			for the physical memory implementation. This model cohesists: to cite professor Santambrogio: \emph{The concepts of addressing space (single/multiple) and the physical memory organization (centralized/distributed) are orthogonal to each other}.
+			\begin{figure}[H]
+				\centering
+				\begin{minipage}{0.45\textwidth}
+					\centering
+					\includegraphics[width=0.9\textwidth]{./images/sharedMemory.png}
+					\caption{Shared address space architectures: centralized memory vs distributed memory}
+				\end{minipage}\hfill
+				\begin{minipage}{0.45\textwidth}
+					\centering
+					\includegraphics[width=0.9\textwidth]{./images/messagePassing.png}
+					\caption{Message Passing architectures: centralized memory vs distributed memory}
+				\end{minipage}
+			\end{figure}
+			This kind of shared vs indipendent models can be also seen in the programming model that finally ends up in the developer hands. However, \emph{every programming model} can be implemented on top of \emph{every kind of architecture}.
+			
+			\paragraph{Reference Model}
+				For all the subsequent examples, we'll use a Bus Based Symmetric Shared Memory system:
+				\begin{itemize}
+					\item Bus Based: all processing units share a communication media that's uniform (and easy to monitor)
+					\item Symmetric: all processing units are "equal" with respect to the bus
+					\item Shared Memory: every processor access the same memory through the bus itself.
+				\end{itemize}
+				The key improvement to this model (also, the one we'll consider) adds caches to the processing units. These can be organized and manaaged to be coherent with the central memory by the hardware itself. 
+			
+		\subsection{Shared Memory Problems - Coherence}
+			Coherence in memory can be seen as the problem to maintain the property "any read on a block must return the most recently written value on that block". This plain concept is crazily difficult to implement, so it turned in a serialization property. The core idea behind memory coherence is that every processing unit should not read data that's outdated. "Memory coherence" itself contains two concepts:
+			\begin{itemize}
+				\item Coherence itself: this term refers to which value should be returned by a read
+				\item Consistency: determines \emph{when} the effect of a write can be seen by other units
+			\end{itemize}
+			From the Patterson Hennessy: \emph{Coherence and consistency are complementary: Coherence defines the behavior of reads and writes to the same memory location, while consistency defines the behavior of reads and writes with respect to accesses to other memory locations}.\\
+			Before digging into consistency protocols, we need two basic definitions for writing policies:
+			\begin{enumerate}
+				\item Write back caches hold the updated value in the cache until an explicit flush is called
+				\item Write through caches immediatly flush the updated value to the main memory on a write operation
+			\end{enumerate}
+			Now, consistency protocols: there are plenty of solutions to enforce consistency and coherence in memory hierarchies, we'll se Snooping Protocols.
+			
+			\subsubsection{Snoopy Bus}
+				The bus is intrisecally a broadcast communication medium between all processing units. This suggests the PU to monitor it looking for changes, and to be able to understand when a cached value is not anymore valid. These protocols can be divided in two main categories, depending on what happens when a write operation is issued.
 				
+				\paragraph{Write Invalidate}
+					Write Invalidate protocols add an "invalidate" signal to the write operation: this tells all other units attached to the bus that they have an outdated value for the written memory block. All processors will now fetch the updated value from the main memory \emph{on their own}. 
+				
+				\paragraph{Write Update}
+					The fat brother of Write Invalidate is Write Update: "update all values in all caches when a write operation is performed". Fat because logically it needs much more bandwidth that WI.
+					
+				\paragraph{MSI}
+					Modified Shared Invalid protocol: the funtioning of this protool is explaind by the automaton
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width = \textwidth]{./images/MSI.png}
+					\end{figure}
+					This simple protocol marks the cache blocks with different labels and acts accordingly. This approach is shared by all consistency protocols: a cache block has a state associated that evolves as the automaton says.
+					
+				\paragraph{MESI}
+					MESI is MSI plus the Exclusive state, which is inserted in the automaton this way:
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width = \textwidth]{./images/MESI.png}
+					\end{figure}
+		
 				
 		\section{GPUs}
 			When talking about heterogeneous architectures, we cannot avoid thinking about dedicated hardware, and GPUs are the best example. The gaming (and physics) industry carried the developing of processing units that were \emph{dedicated} to graphical processing, to speed up execution for example in games, or simulators.
