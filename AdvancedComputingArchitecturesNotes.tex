@@ -192,7 +192,7 @@
 							\item Branch Always Not Taken: the next instruction to be fetched is PC + 4. Easy.
 							\item Branch Always Taken: next instruction to be fetched is the one computed by ID stage.
 							\item Backward Taken Forward Not Taken: this techniques "try to predict basing on the direction of the jump". So the assumption is "forward jumps are conditions, we enters them; backward jumps are loops, we always take them".
-							\item Profile Driven Prediction: statistic approach. Thismethod can use compiler hints.
+							\item Profile Driven Prediction: statistic approach. This method can use compiler hints.
 							\item Delayed Branch: rescheduling. This approach takes an instruction "near" the branch instruction and reschedule it after the branch one, because either if the branch is taken or not \emph{no penalty clock cycles} are to be taken. Obviously, the moved instruction must not be data dependent from the condition or the branch itself. There are three possible ways in which the \emph{branch delay slot} (the first instruction after the branch instruction) can be filled:
 								\begin{itemize}
 									\item From before: the instruction to fill the delay slot is taken from before the branch instruction
@@ -267,7 +267,7 @@
 					\item Operation is the basic unit of computation
 					\item Instruction is a batch of operations; all the operations in the batch can be executed simultaneously
 				\end{itemize}
-				The compiler now has to arrange operations in these batches (the VLIW instructions) that (due to their dimension) justify the name "Very Long Instruction". The Fetch, Decode, Mem and Write Back phases are unchanged in these architectures, juste the EXE block is replicated and parallelized.
+				The compiler now has to arrange operations in these batches (the VLIW instructions) that (due to their dimension) justify the name "Very Long Instruction". The Fetch, Decode, Mem and Write Back phases are \textbf{\emph{unchanged}} in these architectures, juste the EXE block is replicated and parallelized.
 				
 				\subsubsection{Enforcing ILP}
 					In a regular program, it's difficult to find parallel-prone batches of instruction. The compiler has to figure out how to enhance code translation in order to fully use the parallel architecture underneat.
