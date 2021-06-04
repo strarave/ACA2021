@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/Arch Linux) (preloaded format=xelatex 2021.5.24)  28 MAY 2021 11:51
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/Arch Linux) (preloaded format=xelatex 2021.5.24)  4 JUN 2021 11:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -150,6 +150,7 @@ LaTeX Font Info:    ... okay on input line 7.
 \tf@toc=\write3
  [2] [3
 
+
 ]
 Overfull \hbox (17.30579pt too wide) detected at line 43
 \OML/cmm/m/it/10 SPEEDUP[] \OT1/cmr/m/n/10 = [] = (1 \OMS/cmsy/m/n/10 ^^@ \OML/
@@ -161,26 +162,29 @@ Underfull \hbox (badness 10000) in paragraph at lines 43--45
 
  []
 
-[4]
+[4
+
+] [5]
 Underfull \hbox (badness 10000) in paragraph at lines 78--79
 
  []
 
-[5]
 File: ./images/MIPSDP.png Graphic file (type bmp)
 <./images/MIPSDP.png>
+[6
+
+]
 File: ./images/MIPSCPU.png Graphic file (type bmp)
 <./images/MIPSCPU.png>
- [6]
 File: ./images/MIPSCPUPIPELINED.png Graphic file (type bmp)
 <./images/MIPSCPUPIPELINED.png>
  [7]
 File: ./images/ArchBuses.png Graphic file (type bmp)
 <./images/ArchBuses.png>
- [8]
+ [8] [9]
 File: ./images/forwarding.png Graphic file (type bmp)
 <./images/forwarding.png>
- [9] [10]
+ [10] [11]
 Overfull \hbox (1.48004pt too wide) in paragraph at lines 205--206
  \TU/lmr/bx/n/10 Dynamic Branch Prediction Techniques[] \TU/lmr/m/n/10 How can 
 we enhance the ”branch
@@ -188,70 +192,78 @@ we enhance the ”branch
 
 File: ./images/BHTFSA.png Graphic file (type bmp)
 <./images/BHTFSA.png>
-[11]
+[12]
 File: ./images/BHTFSA2.png Graphic file (type bmp)
 <./images/BHTFSA2.png>
- [12]
+ [13]
 File: ./images/BTP.png Graphic file (type bmp)
 <./images/BTP.png>
- [13]
+ [14] [15]
 File: ./images/complexPipeline.png Graphic file (type bmp)
 <./images/complexPipeline.png>
- [14]
+ [16
+
+]
 File: ./images/swpipe.png Graphic file (type bmp)
 <./images/swpipe.png>
- [15]
-Overfull \hbox (2.40201pt too wide) in paragraph at lines 283--284
+ [17]
+Overfull \hbox (2.40201pt too wide) in paragraph at lines 299--300
 \TU/lmr/m/n/10 So, dynamic scheduling is the procedure to ”rearranging instruct
 ions/operations”
  []
 
-[16]
+[18]
 File: ./images/Scoreboard1.png Graphic file (type bmp)
 <./images/Scoreboard1.png>
 File: ./images/Scoreboard2.png Graphic file (type bmp)
 <./images/Scoreboard2.png>
- [17] [18]
+ [19] [20]
 File: ./images/TomasuloArchitecture.png Graphic file (type bmp)
 <./images/TomasuloArchitecture.png>
- [19] [20] [21]
-Overfull \hbox (23.49594pt too wide) in paragraph at lines 386--386
+ [21] [22] [23] [24
+
+]
+Overfull \hbox (23.49594pt too wide) in paragraph at lines 402--402
 []\TU/lmr/bx/n/14.4 How to Handle Interrupts in a Five Stage Pipeline 
  []
 
+[25]
 File: ./images/superscalar.png Graphic file (type bmp)
 <./images/superscalar.png>
-[22] [23] [24]
+ [26
+
+] [27] [28
+
+]
 File: ./images/threadLevelParallelism.png Graphic file (type bmp)
 <./images/threadLevelParallelism.png>
- [25]
+ [29]
 File: ./images/SIMD.png Graphic file (type bmp)
 <./images/SIMD.png>
 
-Underfull \hbox (badness 2790) in paragraph at lines 462--462
+Underfull \hbox (badness 2790) in paragraph at lines 478--478
 []\TU/lmr/m/n/10 Figure 13: A traditional SIMD computation, with a central arbi
 ter
  []
 
 File: ./images/vISAs.png Graphic file (type bmp)
 <./images/vISAs.png>
-[26]
-Underfull \hbox (badness 10000) in paragraph at lines 480--482
+[30]
+Underfull \hbox (badness 10000) in paragraph at lines 496--498
 
  []
 
-[27]
+[31]
 File: ./images/sharedMemory.png Graphic file (type bmp)
 <./images/sharedMemory.png>
 File: ./images/messagePassing.png Graphic file (type bmp)
 <./images/messagePassing.png>
- [28] [29]
+ [32] [33]
 File: ./images/MSI.png Graphic file (type bmp)
 <./images/MSI.png>
- [30]
 File: ./images/MESI.png Graphic file (type bmp)
 <./images/MESI.png>
- [31] [32] (./AdvancedComputingArchitecturesNotes.aux) ) 
+ [34] [35] [36] (./AdvancedComputingArchitecturesNotes.aux) ) 
 Here is how much of TeX's memory you used:
  1715 strings out of 477299
  26146 string characters out of 5838338
@@ -261,4 +273,4 @@ Here is how much of TeX's memory you used:
  1348 hyphenation exceptions out of 8191
  66i,8n,72p,920b,260s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on AdvancedComputingArchitecturesNotes.pdf (33 pages).
+Output written on AdvancedComputingArchitecturesNotes.pdf (37 pages).
