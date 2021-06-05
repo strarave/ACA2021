@@ -358,7 +358,7 @@
 					The reservation stations can access a common data bus (the hearth and nervous system of the Tomasulo architecture) that makes available / read the values broadcasted from Reservation Stations.
 					
 				\subsubsection{Tomasulo data structures}
-					Tomasulo decentralized approach does not affect much the kind of information needed in solving this problem. In fact, the \emph{very same information} is just scattered near the functional units, inside the reservation station. The reservation station, in fact, are made up of:
+					Tomasulo decentralized approach does not affect much the kind of information needed in solving this problem. In fact, the \emph{very same information of the scoreboarding approach} is just scattered near the functional units, inside the reservation station. The reservation station, in fact, are made up of:
 					\begin{itemize}
 						\item A string indicating the type of operation needed
 						\item $V_j$ and $V_k$ the values of the source operands (value = copies)
@@ -373,7 +373,7 @@
 						Get the instruction from the queue and if a RS is ready, \emph{set the right values of it}, that can be either in the registers or in a issued computation; in the latter case, the pointers to the FU that will produce the right value are given to the issued intruction. If there's no station available, the operation is stalled: we're in presence of a structural hazards. In this step registers are renamed, avoiding WAR and WAW hazards.
 					
 					\paragraph{EXECUTION stage}
-						If an operand is not ready \emph{it will arrive from the shared data bus}. In this stage operands are "waited" monitoring the CDB, and each RS and FU knows which other will produce the desired value because of the ISSUE stage providing thi information earlier.
+						If an operand is not ready \emph{it will arrive from the shared data bus}. In this stage operands are "waited" monitoring the CDB, and each RS and FU knows which other will produce the desired value because of the ISSUE stage providing this information earlier.
 						
 					\paragraph{WRITE stage}
 						In this phase the result of the FU computations are broadcasted on the common data bus and stored in the RS that requested it and in the Store Buffers, in order to be stored in memory or in the RF eventually.
@@ -425,7 +425,7 @@
 			Summing up: ILP has an upper bound. This upper bound is dependant \emph{surely} on the technology we use to implement CPUs, but not only: it is influenced by the complexity inherent in the executing of multiple instructions at the same time, considering overlaps, jumps, conditional jumps, exceptions. All these aspects must also take into account power consumption (technological barrier: still a relevant issue) and design complexity.\\
 			Here, at the top of the upper bound of ILP exploitation, we can see the real limit of SISD architectures. We should look further to different type of architectures in order to increase performance again.
 			
-	\clearpage \part{Multiple Cores}
+	\clearpage \part{Beyond Instruction Level Parallelism}
 		\section{How to Handle Explicit Parallelism}
 			Ok so, we reached ILP. We next step is to introduce \emph{real} parallelism (\emph{explicit parallelism}). As usual, multiple models can be adopted in order to introduce parallelism into the process model:
 			\begin{enumerate}
@@ -440,10 +440,10 @@
 				To introduce real parallelism in a non-parallel architecture, we must rely on a super fast control unit that handles a lot of thread-context-switches at a time. Assuming this kind of CU exists, how thread can interleave in a pipeline? 
 				
 				\paragraph{Temporal Multithreading}
-					An architecture that exploits temporal multithreading uses the processor for a single task at a time. The parallelism is put in place by switching between tasks \emph{over time} and \emph{preemptively}, in roder to give the illusion of parallelization. This is not really hardware multithreading, because the maximum number of tasks (processes, threads) in execution at the very same time is always one.\\
+					An architecture that exploits temporal multithreading uses the processor for a single task at a time. The parallelism is put in place by switching between tasks \emph{over time} and \emph{preemptively}, in order to give the illusion of parallelization. This is not really hardware multithreading, because the maximum number of tasks (processes, threads) in execution at the very same time is always one.\\
 					We can distinguish between:
 					\begin{enumerate}
-						\item Fine grain parallelism: each \emph{instruction} is followed by another thread \emph{instruction}. This hides short and long stalls, because a stalled thread "leaves the pipeline free" for another thread. 
+						\item Fine grain parallelism: each \emph{instruction} is followed by another thread \emph{instruction}. This hides short and long stalls, because a stalled thread "leaves the pipeline free" for another thread. The overall completion rate of threads is lowered, though.
 						\item Coarse grain parallelism: switch between threads only when a long stall is asked from a thread. This enables the threads to interleave in a more efficent way. 
 					\end{enumerate}
 				
@@ -496,7 +496,71 @@
 				MIMD architectures pushes heterogeneous approaches. Why? Because having multiple instructions executing at the same time on different data means that potentially perform super different computations \emph{at the same time on the same chip}. The perfect example is mobile multi purpose devices, that have to handle a ton of computations at the same time that are not \emph{so computationally expensive}, but they're all different from one another: text processing lives besides video processing and communications.\\
 				MIMD processors are arrays of processors that work asynchronoulsy on different data. Little detail: this vague definition of MIMD machines includes parallel omogeneous architectures as well as heterogeneous chips and also clusters of indipendent machines.\\
 				
-		\section{Classes of MIMD Machines and their Memory Models}
+				\subsubsection{Console War Examples: Cell vs Xenon}
+					The classic console war between XBox 360 by Microsoft and Playstation 3 by Sony took place also behind the scenes, where the two tech giants were trying to achieve the best performance for their console. This reflected in a serious developing of the architecture that then went inside the machine: both companies had their chip produced by IBM and used the IBM powercore as main brain of it, but the two solutions were \emph{incredibly different}.
+					
+					\paragraph{Playstation 3 Solution: the Cell processor}
+						The Cell processor was composed of
+						\begin{itemize}
+							\item A single 64 bit Power core
+							\item 8 specialized SIMD coprocessors
+						\end{itemize}
+						This enabled Sony to maintain fairly unchanged the Power core ISA and still embedding some additional vector processing in their chip.
+						
+					\paragraph{XBox 360 Solution: the Xenon processor}
+						The Xenon processor was produced in a totally different way: it was composed by three identical CPU that \emph{each} embeds a SIMD extension, that was also an ISA modification.
+						
+					\paragraph{Comparison}
+						So, \emph{who did it better}? Let's compare the approaches, starting from the thing they did at the same way: both Sony and Microsoft embedded SIMD vector processing in their solution, well aware of the fact that it was the best way to implement graphic computations. They also combined different approaches to have a MIMD architecture at their disposal: they did not rely on only vector processing to get the work done. So what are the differences?
+						\begin{enumerate}
+							\item Sony went for an heterogeneous solution, that combines different processors. The ISA remain fairly unchanged, but the main Power core CPU could use different parallel coprocessors in order to create hardware parallelism
+							\item Microsoft created a homogeneous multicore solution, where \emph{the very same} modified version of the Power core was replicated three times on the chip. The ISA was changed to adapt to the customizations needed: this time, the vector processors were embedded \emph{directly in the main core} and then they were replicated three times on the chip
+						\end{enumerate}
+						\begin{figure}[H]
+							\centering
+							\begin{minipage}{0.45\textwidth}
+								\centering
+								\includegraphics[width=0.9\textwidth]{./images/Cell.png}
+								\caption{The Cell processor}
+							\end{minipage}\hfill
+							\begin{minipage}{0.45\textwidth}
+								\centering
+								\includegraphics[width=0.9\textwidth]{./images/Xenon.png}
+								\caption{The Xenon processor}
+							\end{minipage}
+						\end{figure}
+						
+					
+			
+		\section{GPUs}
+			When talking about heterogeneous architectures, we cannot avoid thinking about dedicated hardware, and GPUs are the best example. The gaming (and physics) industry carried the developing of processing units that were \emph{dedicated} to graphical processing, to speed up execution for example in games, or simulators.
+			
+			\subsection{Procedural Synthesis}
+				Procedural synthesis is a method to \emph{generate content} dynamically basing on random or pseudo random seeds. This technique is used to generate for example low level geometry for landscape in videogames. In this very case, objects are composed of polygones that are stored in memory as set of vertices.
+				
+				\paragraph{XBox 360's Solutions to Procedural Synthesis}
+					Xbox 360 by Microsoft uses this workflow to render scenes of videogames:
+					\begin{enumerate}
+						\item Store in the main memory high level descriptions of the objects to render.
+						\item Use the CPU to carry out the procedural synthesis of the \emph{geometry} at runtime, to create the skeleton of the scene.
+						\item Use the GPU to load then the graphic components such as textures, and put together the full scene.
+					\end{enumerate}
+			
+			\subsection{GPUs and CPUs}
+				Architecturally, GPUs are completely different from standard CPUs. While CPUs are oriented to serial execution of instructions, GPUs are more tailored to highly parallel execution to achieve higher volumes of computation.
+				
+			\subsection{The GPU Pipeline}
+				The GPU work is to receive geometry as input and produce an image corresponding to that geometry as an output. This is made possible through the workflow
+				\begin{enumerate}
+					\item interface with the host: this stage of the pipeline gets the information (so vertices) from the CPU and the other main geometry infos (vectors and stuff).
+					\item vertex processing: in this stage all the vertices are connected to form the right shapes. 
+					\item triangle setup: all the forms outputted from the vertex processing stage are processed in order to realize \emph{which portions of which geometry elements} should be mapped on the final figure.
+					\item pixel processing: all the textures are applied in this portion of the pipeline.
+					\item last stage: memory interface. 
+				\end{enumerate}
+				
+	\part{Vague Memory Hierarchy Notions}
+		\section{Models for Memory and Caching}
 			We can classify MIMD machines either by the address space model or the physical implementation of the memory itself:
 			\begin{itemize}
 				\item single shared address space memory architectures, where all processors share the same memory addresses\footnote{\emph{NOT THE SAME MEMORY, but only the addressing space. Can be the same memory though.}}(it's usually up to the OS to maintain coherence). This solution provides low overhead: there's no difference for a process to load data from memory and passing data to another process. On the other hand, the management of the address space is a mess. Also, it does not scale well.
@@ -568,35 +632,5 @@
 						\begin{figure}[H]
 							\centering
 							\includegraphics[width = \textwidth]{./images/MESI.png}
-						\end{figure}
-				
-		\section{GPUs}
-			When talking about heterogeneous architectures, we cannot avoid thinking about dedicated hardware, and GPUs are the best example. The gaming (and physics) industry carried the developing of processing units that were \emph{dedicated} to graphical processing, to speed up execution for example in games, or simulators.
-			
-			\subsection{Procedural Synthesis}
-				Procedural synthesis is a method to \emph{generate content} dynamically basing on random or pseudo random seeds. This technique is used to generate for example low level geometry for landscape in videogames. In this very case, objects are composed of polygones that are stored in memory as set of vertices.
-				
-				\paragraph{XBox 360's Solutions to Procedural Synthesis}
-					Xbox 360 by Microsoft uses this workflow to render scenes of videogames:
-					\begin{enumerate}
-						\item Store in the main memory high level descriptions of the objects to render.
-						\item Use the CPU to carry out the procedural synthesis of the \emph{geometry} at runtime, to create the skeleton of the scene.
-						\item Use the GPU to load then the graphic components such as textures, and put together the full scene.
-					\end{enumerate}
-			
-			\subsection{GPUs and CPUs}
-				Architecturally, GPUs are completely different from standard CPUs. While CPUs are oriented to serial execution of instructions, GPUs are more tailored to highly parallel execution to achieve higher volumes of computation.
-				
-			\subsection{The GPU Pipeline}
-				The GPU work is to receive geometry as input and produce an image corresponding to that geometry as an output. This is made possible through the workflow
-				\begin{enumerate}
-					\item interface with the host: this stage of the pipeline gets the information (so vertices) from the CPU and the other main geometry infos (vectors and stuff).
-					\item vertex processing: in this stage all the vertices are connected to form the right shapes. 
-					\item triangle setup: all the forms outputted from the vertex processing stage are processed in order to realize \emph{which portions of which geometry elements} should be mapped on the final figure.
-					\item pixel processing: all the textures are applied in this portion of the pipeline.
-					\item last stage: memory interface. 
-				\end{enumerate}
-				
-		
-			
+						\end{figure}			
 \end{document}
