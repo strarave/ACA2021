@@ -270,7 +270,7 @@
 				The compiler now has to arrange operations in these batches (the VLIW instructions) that (due to their dimension) justify the name "Very Long Instruction". The Fetch, Decode, Mem and Write Back phases are \textbf{\emph{unchanged}} in these architectures, juste the EXE block is replicated and parallelized.
 				
 				\subsubsection{Enforcing ILP}
-					In a regular program, it's difficult to find parallel-prone batches of instruction. The compiler has to figure out how to enhance code translation in order to fully use the parallel architecture underneat.
+					In a regular program, it's difficult to find parallel-prone batches of instruction. The compiler has to figure out how to enhance code translation in order to fully use the parallel architecture underneath.
 					
 					\paragraph{Loop Unrolling}
 						A simple example is the way loops that access sequential (or random access) data structure, just as a simple foreach, can be "unrolled", so more iteration of it can be executed at the same time. N.B.: this must be compatible with the conflicts in the code!
