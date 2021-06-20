@@ -225,7 +225,7 @@
 							Even more formally, a $(m, n)$ predictor uses the behaviour of the last $m$ branches to choose from $2^m$ branch predictors, each of which is a $n-bit$ predictor for a single branch. From the implementation point of view, the history of branches is memorized in a shift register of lenght $m$. 
 						
 						\subparagraph{Branch Target Predictor}
-							Simply enough, the BTP is a cache that stores the predicted address to jump to if a branch is taken. It's structured as an hashmap of jump addresses $\rightarrow$ PC-relative jump targets. Every associative entry must also have some validity bits, in order to signal wheter the branch is "in use" or not. Usually, these bits are signaled by the Branch Outcome Predictor.
+							Simply enough, the BTP is a cache that stores the predicted address to jump to if a branch is taken. It's structured as an hashmap of jump addresses $\rightarrow$ PC-relative jump targets. Every associative entry must also have some validity bits, in order to signal whether the branch is "in use" or not. Usually, these bits are signaled by the Branch Outcome Predictor.
 							\begin{figure}[H]
 								\centering
 								\includegraphics[width = \textwidth]{./images/BTP.png}
@@ -272,7 +272,7 @@
 				The compiler now has to arrange operations in these batches (the VLIW instructions) that (due to their dimension) justify the name "Very Long Instruction". The Fetch, Decode, Mem and Write Back phases are \textbf{\emph{unchanged}} in these architectures, juste the EXE block is replicated and parallelized.
 				
 				\subsubsection{Enforcing ILP}
-					In a regular program, it's difficult to find parallel-prone batches of instruction. The compiler has to figure out how to enhance code translation in order to fully use the parallel architecture underneat.
+					In a regular program, it's difficult to find parallel-prone batches of instruction. The compiler has to figure out how to enhance code translation in order to fully use the parallel architecture underneath.
 					
 					\paragraph{Loop Unrolling}
 						A simple example is the way loops that access sequential (or random access) data structure, just as a simple foreach, can be "unrolled", so more iteration of it can be executed at the same time. N.B.: this must be compatible with the conflicts in the code!
@@ -304,7 +304,7 @@
 				\subsubsection{Scoreboard Data Structures}
  					In order to properly manage the complex pipeline and "give the right timing" to each instructions, functional unit and register, the scoreboard architecture makes use of additional data structures. The most important is a "hash map"-like stucture that links every functional unit to a set of flags and pointers, in detail:
  					\begin{enumerate}
- 						\item A \emph{busy} flag that signals wheter the FU is in use
+ 						\item A \emph{busy} flag that signals whether the FU is in use
  						\item A \emph{op} vector that describes the available operation in that FU. This is also used to \emph{tell multi functional units which is the desired operation}
  						\item Three pointers to the registers (one for the destination, two for the sources, obviously)
  						\item Two pointers to the functional units that \emph{should produce the desired value} (this pointer is used to detect RAW conflicts) and that is linked to the source/destination register pointer (in fact, if we call $F_i$ and $F_j$ the two source registers, these two pointers would be $Q_i, Q_j$). More than pointers, this are FU ids, like "integer module 1" or "adder 2"
@@ -408,7 +408,7 @@
 
 		\section{How to Handle Interrupts in a Five Stage Pipeline}
 			For each stage of a pipelined architecture, additional hardware must be deployed in order to catch interrupts and handle them. This is due to the fact that every stage can cause errors: arithmetic faults are caused by the ALU, wrong opcodes are catched in the first stage, memory errors are generated in the last one and so on.\\
-			A valid method is to add a flag to the instructions that signals wheter that instruction has caused an excepion or not. Interrupts-generating instructions are then NOPped and the pipeline flushed. The next instructions to be fetched are the ones of the interrupt handler. In which order are exceptions handled? If we wait till the last pipieline stage (the commit point) and then we collect the exceptions flag and execute the handlers \emph{in order} we solve the problems related to have multiple parallel instructions faulting at the same time.
+			A valid method is to add a flag to the instructions that signals whether that instruction has caused an excepion or not. Interrupts-generating instructions are then NOPped and the pipeline flushed. The next instructions to be fetched are the ones of the interrupt handler. In which order are exceptions handled? If we wait till the last pipieline stage (the commit point) and then we collect the exceptions flag and execute the handlers \emph{in order} we solve the problems related to have multiple parallel instructions faulting at the same time.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width = \textwidth]{./images/ExcMips.png}
